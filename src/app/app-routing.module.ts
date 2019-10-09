@@ -5,9 +5,21 @@ import { HomeModule } from './home/home.module';
 
 const routes: Routes = [
   {
+    path: 'editor',
+    loadChildren: () => import('./editor/editor.module').then(mod => mod.EditorModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then(mod => mod.SettingsModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(mod => mod.ProfileModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./home/home.module').then(mod => mod.HomeModule)
-  }
+  },
 ];
 
 @NgModule({
