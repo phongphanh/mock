@@ -9,6 +9,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AuthRoutingModule } from './auth/auth-routing.module';
 import { AuthModule } from './auth/auth.module';
+import { EditorRoutingModule } from './editor/editor-routing.module';
+import { EditorModule } from './editor/editor.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     MarkdownModule.forRoot(),
     AuthModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    EditorModule,
+    EditorRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
