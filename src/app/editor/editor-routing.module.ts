@@ -11,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'article',
-    component: ArticleComponent
+    component: ArticleComponent,
+    // children: [{
+    //   path: ':slug',
+    //   redirectTo: ':slug'
+    // }]
   }
 ];
 
