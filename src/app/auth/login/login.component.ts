@@ -20,9 +20,7 @@ export class LoginComponent implements OnInit {
     if (loginForm.valid) {
       this.authService.login(loginForm.value).subscribe((data: User) => {
         this.error = false;
-        localStorage.setItem("token", data.user.token);
-        this.authService.changeLogin(true);
-        this.router.navigate(['/']);
+        this.authService.changeLogin(data.user.username, data.user.token);
       }, (error) => {
         this.error = true;
       });
