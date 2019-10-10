@@ -12,4 +12,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSubmit(registerForm) {
+    if (registerForm.valid) {
+      
+    }
+  }
 }

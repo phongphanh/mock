@@ -4,14 +4,26 @@
 
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Sign in</h1>
+                <mat-error *ngIf="error">Email or password is invalid</mat-error>
+                <form name="login" (ngSubmit)="onSubmit(login)" #login="ngForm">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Email" name="email" #email="ngModel" ngModel type="text" required
+                            email>
+                        <mat-error *ngIf="email.hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="!email.hasError('required') && email.hasError('email')">
+                            Email is invalid
+                        </mat-error>
+                    </mat-form-field>
 
-                <form>
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="password" placeholder="Password">
-                    </fieldset>
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Password" name="password" #password="ngModel" ngModel
+                            type="password" required>
+                        <mat-error *ngIf="password.hasError('required')">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         Sign in
                     </button>

@@ -5,23 +5,32 @@
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Sign up</h1>
                 <p class="text-xs-center">
-                    <a href="">Have an account?</a>
+                    <a [routerLink]="['/login']">Have an account?</a>
                 </p>
 
-                <ul class="error-messages">
-                    <li>That email is already taken</li>
-                </ul>
-
-                <form>
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Your Name">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="password" placeholder="Password">
-                    </fieldset>
+                <form #register="ngForm" name="register" (ngSubmit)="onSubmit(register)">
+                    <mat-form-field class="w-100 mb-2">
+                        <input matInput type="text" name="username" placeholder="Your Name" #username="ngModel" ngModel
+                            required maxlength="20">
+                        <mat-error *ngIf="username.hasError('required')">Username is required</mat-error>
+                        <mat-error *ngIf="username.hasError('maxlength')">username is too long (maximum is 20 characters)</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-100 mb-2">
+                        <input matInput type="text" name="email" placeholder="Email" #email="ngModel" ngModel required email>
+                        <mat-error *ngIf="email.hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="!email.hasError('required') && email.hasError('email')">
+                            Email is invalid
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-100 mb-2">
+                        <input matInput type="password" name="password" placeholder="Password" #password="ngModel" ngModel
+                            required>
+                        <mat-error *ngIf="password.hasError('required')">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         Sign up
                     </button>

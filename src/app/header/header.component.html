@@ -6,25 +6,30 @@
                 <li class="nav-item">
                     <a class="nav-link active" [routerLink]="['/']">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/editor']" routerLinkActive="active" >
-                        <i class="ion-compose"></i>&nbsp;New Post
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/settings']" routerLinkActive="active" >
-                        <i class="ion-gear-a"></i>&nbsp;Settings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active" >Sign in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active" >Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="active" >Profile</a>
-                </li>
+                <ng-template [ngIf]="isLogin">
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/editor']" routerLinkActive="active">
+                            <i class="ion-compose"></i>&nbsp;New Post
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/settings']" routerLinkActive="active">
+                            <i class="ion-gear-a"></i>&nbsp;Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="active">Profile</a>
+                    </li>
+                </ng-template>
+                <ng-template [ngIf]="!isLogin">
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">Sign up</a>
+                    </li>
+                </ng-template>
+                
             </ul>
         </div>
     </nav>

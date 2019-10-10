@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { User } from 'src/app/model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  error: boolean;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
+  onSubmit(loginForm) {
+    if (loginForm.valid) {
+      this.authService.login(loginForm.value).subscribe((data: User) => {
+        this.error = false;
+        localStorage.setItem("token", data.user.token);
+        this.authService.changeLogin(true);
+        this.router.navigate(['/']);
+      }, (error) => {
+        this.error = true;
+      });
+    }
+  }
 }
