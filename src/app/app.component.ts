@@ -9,13 +9,5 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   title = 'demo';
-  isLogin: boolean = localStorage.getItem('token') != null;
-
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.authService.loginEmit.subscribe(res => {
-      this.isLogin = res;
-    })
-  }
+  
 }
