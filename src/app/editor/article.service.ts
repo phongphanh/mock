@@ -14,7 +14,7 @@ export class ArticleService {
   author;
   favorited;
 
-  public getArticles(limit, offset, tag): Observable<any> {
+  public getArticles(limit, offset, tag?): Observable<any> {
     return this.http.get(this.url,
       {
         params: {

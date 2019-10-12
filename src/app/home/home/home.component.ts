@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ArticleService } from 'src/app/editor/article.service';
 import { Articles } from 'src/app/model/articles';
 import { TagService } from '../tag.service';
@@ -23,15 +23,14 @@ export class HomeComponent implements OnInit {
   offsetIndex = 0;
   currentPage = 0;
   tag: string;
+  currentTag: string = '';
 
   ngOnInit() {
     console.log('create');
-    this.articleService.getArticles(this.limit, this.offsetIndex).subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag='').subscribe((item: Articles) => {
       this.lists = item.articles;
       this.articlesCount = item.articlesCount;
-      for(let i = 0; i < this.articlesCount/Number(this.limit); i++){
-        this.pagination.push(i);
-      }
+      this.setPage();
     });
 
     this.tagService.getTags().subscribe((item: Tags) => {
@@ -39,15 +38,39 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  changePage(offset, index){
-    this.currentPage = index;
-    console.log(this.currentPage);
-    this.articleService.getArticles(this.limit, offset).subscribe((item: Articles) => {
+  setPage() {
+    this.pagination = [];
+    for (let i = 0; i < Math.round(this.articlesCount / Number(this.limit)); i++) {
+      this.pagination.push(i);
+    }
+  }
+
+  changePage(event) {
+    this.currentPage = event[1];
+    this.offsetIndex = event[0];
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
       this.lists = item.articles;
+      this.articlesCount = item.articlesCount;
     });
   }
 
-  getTag(param){
+  getTag(param) {
     this.tag = param;
+    this.currentTag = param;
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
+      this.lists = item.articles;
+      this.articlesCount = item.articlesCount;
+      this.setPage();
+    });
+  }
+
+  changeFeed(){
+    this.currentTag = '';
+    this.tag = '';
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
+      this.lists = item.articles;
+      this.articlesCount = item.articlesCount;
+      this.setPage();
+    });
   }
 }
