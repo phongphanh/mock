@@ -18,7 +18,8 @@ export class ArticleService {
 
   constructor(private http: HttpClient) { }
 
-  public getArticles(limit, offset, tag): Observable<any> {
+  // public getArticles(limit, offset, tag): Observable<any> {
+  public getArticles(limit, offset, tag?): Observable<any> {
     return this.http.get(this.url,
       {
         params: {
