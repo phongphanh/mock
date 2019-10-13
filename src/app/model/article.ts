@@ -12,3 +12,7 @@ export interface Article {
     "favoritesCount": number;
     "author": Profile;
 }
+
+export interface ArticleDetail {
+    article: Article
+}

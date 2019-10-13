@@ -7,17 +7,22 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ProfileService {
   user: User;
-
+  header = new HttpHeaders({
+    Accept: 'application/json',
+    Authorization: `Token ${localStorage.getItem('token')}`
+  });
   constructor(private http: HttpClient) { }
 
   getUser() {
-    let header = new HttpHeaders({
-      Accept: 'application/json',
-      Authorization: `Token ${localStorage.getItem('token')}`
-    });
-
+    
     return this.http.get('https://conduit.productionready.io/api/user', {
-      headers: header,
+      headers: this.header,
     })
+  }
+
+  updateProfile(value) {
+    return this.http.put('https://conduit.productionready.io/api/user', {user: value}, {
+      headers: this.header
+    });
   }
 }

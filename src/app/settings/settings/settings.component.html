@@ -8,22 +8,22 @@
                 <form #settings="ngForm" name="settings" (ngSubmit)="onSubmit(settings)">
                     <fieldset>
                         <mat-form-field class="mb-2 w-100">
-                            <input matInput name="userImg" #userImg="ngModel" ngModel type="text" placeholder="URL of profile picture" [value]="user?.user?.image">
+                            <input matInput name="image" #userImg="ngModel" [(ngModel)]="user?.user.image" type="text" placeholder="URL of profile picture">
                         </mat-form-field>
                         <mat-form-field class="mb-2 w-100">
-                            <input matInput name="userName" #userName="ngModel" ngModel type="text" placeholder="Your Name" [value]="user?.user?.username" required maxlength="8">
-                            <mat-error *ngIf="userName.hasError('required')">
-                                Username is required
+                            <input matInput name="username" #username="ngModel" [(ngModel)]="user?.user.username" type="text" placeholder="Your Name" required maxlength="20">
+                            <mat-error *ngIf="username.hasError('required')">
+                                username is required
                             </mat-error>
-                            <mat-error *ngIf="userName.hasError('maxlength')">
-                                Username is too long (Maximum is 20 characters)
+                            <mat-error *ngIf="username.hasError('maxlength')">
+                                username is too long (Maximum is 20 characters)
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field class="w-100 mb-2">
-                            <textarea matInput name="bio" #bio="ngModel" ngModel  rows="8" placeholder="Short bio about you" [value]="user?.user?.bio"></textarea>
+                            <textarea matInput name="bio" #bio="ngModel" [(ngModel)]="user?.user.bio"  rows="8" placeholder="Short bio about you"></textarea>
                         </mat-form-field>
                         <mat-form-field class="w-100 mb-2">
-                            <input matInput name="email" #email="ngModel" ngModel type="text" placeholder="Email" [value]="user?.user?.email" required email>
+                            <input matInput name="email" #email="ngModel" [(ngModel)]="user?.user.email" type="text" placeholder="Email" required email>
                             <mat-error *ngIf="email.hasError('required')">
                                 Email is required
                             </mat-error>
@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <hr>
-                <button class="btn btn-primary" (click)="logOut()">Log out</button>
+                <button class="btn btn-outline-danger" (click)="logOut()">Log out</button>
             </div>
         </div>
     </div>

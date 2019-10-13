@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     console.log('create');
-    this.articleService.getArticles(this.limit, this.offsetIndex).subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, this.offsetIndex, '').subscribe((item: Articles) => {
       this.lists = item.articles;
       this.articlesCount = item.articlesCount;
       for(let i = 0; i < this.articlesCount/Number(this.limit); i++){
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
   changePage(offset, index){
     this.currentPage = index;
     console.log(this.currentPage);
-    this.articleService.getArticles(this.limit, offset).subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, offset, '').subscribe((item: Articles) => {
       this.lists = item.articles;
     });
   }

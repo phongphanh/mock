@@ -27,7 +27,12 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(settingsForm) {
-    console.log(settingsForm);
-    
+    if (settingsForm.valid) {
+      this.profileService.updateProfile(settingsForm.value).subscribe((data: User) => {
+        localStorage.setItem('userName', data.user.username);
+        this.authService.loginEmit.emit(data.user.username);
+        this.router.navigate(['/profile']);
+      })
+    }
   }
 }

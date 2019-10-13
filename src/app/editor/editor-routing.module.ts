@@ -6,16 +6,16 @@ import { ArticleComponent } from './article/article.component';
 
 const routes: Routes = [
   {
-    path: 'editor',
-    component: EditorComponent
+    path: 'editor/:slug',
+    component: EditorComponent,
   },
   {
-    path: 'article',
+    path: 'editor',
+    component: EditorComponent,
+  },
+  {
+    path: 'article/:slug',
     component: ArticleComponent,
-    // children: [{
-    //   path: ':slug',
-    //   redirectTo: ':slug'
-    // }]
   }
 ];
 
