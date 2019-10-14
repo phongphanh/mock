@@ -29,7 +29,7 @@
             <div class="article-meta">
               <a href="profile.html"><img [src]="item.author.image" /></a>
               <div class="info">
-                <a [routerLink]="['/profile']" class="author">{{item.author.username}}</a>
+                <a [routerLink]="['@' + item?.author?.username]" class="author">{{item.author.username}}</a>
                 <span class="date">{{item.createdAt | date}}</span>
               </div>
               <button class="btn btn-outline-primary btn-sm pull-xs-right">

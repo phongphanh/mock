@@ -9,7 +9,7 @@ const routes: Routes = [
     loadChildren: () => import('./settings/settings.module').then(mod => mod.SettingsModule)
   },
   {
-    path: 'profile',
+    path: ':username',
     loadChildren: () => import('./profile/profile.module').then(mod => mod.ProfileModule)
   },
   {
