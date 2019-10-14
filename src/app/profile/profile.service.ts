@@ -14,7 +14,6 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUser() {
-    
     return this.http.get('https://conduit.productionready.io/api/user', {
       headers: this.header,
     })

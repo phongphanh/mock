@@ -14,13 +14,13 @@
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link disabled" href="">Your Feed</a>
+              <a class="nav-link" [ngClass]="{active: tab == 'feed'}" [ngStyle]="{display: checkLogin ? '' : 'none'}" (click)="changeTab('feed')">Your Feed</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="currentTag == '' ? 'active' : ''" (click)="changeFeed()">Global Feed</a>
+              <a class="nav-link" [ngClass]="{active: tab == 'global'}" (click)="changeTab('global')">Global Feed</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="currentTag != '' ? 'active' : ''">{{currentTag}}</a>
+              <a class="nav-link" [ngClass]="{active: tab != 'global' && tab != 'feed'}" [ngStyle]="{display: tab != 'global' && tab != 'feed' ? '' : 'none'}">{{ tab }}</a>
             </li>
           </ul>
         </div>
@@ -29,7 +29,7 @@
             <div class="article-meta">
               <a href="profile.html"><img [src]="item.author.image" /></a>
               <div class="info">
-                <a href="" class="author">{{item.author.username}}</a>
+                <a [routerLink]="['/profile']" class="author">{{item.author.username}}</a>
                 <span class="date">{{item.createdAt | date}}</span>
               </div>
               <button class="btn btn-outline-primary btn-sm pull-xs-right">
@@ -62,7 +62,7 @@
           <p>Popular Tags</p>
 
           <div class="tag-list">
-            <a class="tag-pill tag-default" *ngFor="let item of tags" (click)="getTag(item)">{{item}}</a>
+            <a class="tag-pill tag-default" *ngFor="let item of tags" (click)="changeTab(item)">{{item}}</a>
           </div>
         </div>
       </div>

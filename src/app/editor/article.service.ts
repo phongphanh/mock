@@ -30,6 +30,19 @@ export class ArticleService {
       });
   }
 
+  //get article with user
+  public getArticlesWithLogin(limit, offset): Observable<any>{
+    return this.http.get(this.url + '/feed',{
+      params: {
+        limit: limit,
+        offset: offset
+      },
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
   // public getArticle(param): Observable<any>{
   //   return this.http.get(this.url + `/${param}`)
   // }
