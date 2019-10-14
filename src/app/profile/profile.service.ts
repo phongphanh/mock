@@ -24,4 +24,19 @@ export class ProfileService {
       headers: this.header
     });
   }
+
+  followAuthor(status: boolean, username: string) {
+    let url = `https://conduit.productionready.io/api/profiles/${username}/follow`;
+    if (status) {
+      //post
+      return this.http.post(url, {}, {
+        headers: this.header
+      })
+    } else {
+      //delete
+      return this.http.delete(url, {
+        headers: this.header
+      })
+    }
+  }
 }

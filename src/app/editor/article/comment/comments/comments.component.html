@@ -9,5 +9,10 @@
         &nbsp;
         <a href="" class="comment-author">{{ comment?.author.username }}</a>
         <span class="date-posted">{{ comment?.createdAt | date: 'MMMM dd, yyyy' }}</span>
+        <ng-template [ngIf]="comment?.author.username == curUser?.user.username">
+            <span class="mod-options" (click)="deleteComponent(comment?.id)">
+                <i class="ion-trash-a"></i>
+            </span>
+        </ng-template>
     </div>
 </div>

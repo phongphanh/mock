@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ArticleService } from '../../article.service';
-import { Comments } from 'src/app/model/comment';
+import { Comments, Comment } from 'src/app/model/comment';
+import { User } from 'src/app/model/user';
 
 
 @Component({
@@ -10,7 +11,9 @@ import { Comments } from 'src/app/model/comment';
 })
 export class CommentComponent implements OnInit {
   @Input() slug: string;
+  @Input() curUser: User;
   comments: Comments;
+
   constructor(private articleService: ArticleService) { }
 
   ngOnInit() {
@@ -22,4 +25,13 @@ export class CommentComponent implements OnInit {
     })
   }
 
+  addComment(comment: Comment) {
+    this.comments.comments.unshift(comment);
+  }
+
+  delComment(id: number) {
+    this.articleService.delComment(this.slug, id).subscribe((data) => {
+      this.comments.comments = this.comments.comments.filter((item: Comment) => item.id != id);
+    });
+  }
 }

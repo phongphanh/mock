@@ -1,2 +1,2 @@
-<app-comment-box></app-comment-box>
-<app-comments [comments]="comments"></app-comments>
+<app-comment-box [slug]="slug" [curUser]="curUser" (addComment)="addComment($event)"></app-comment-box>
+<app-comments [comments]="comments" [curUser]="curUser" (delComment)="delComment($event)"></app-comments>

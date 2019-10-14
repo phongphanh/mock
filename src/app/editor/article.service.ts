@@ -63,4 +63,33 @@ export class ArticleService {
       headers: this.header
     });
   }
+
+  addComment(slug: string, body: string) {
+    return this.http.post(`${this.url}/${slug}/comments`, {
+      comment: {
+        body: body
+      }
+    }, {
+      headers: this.header
+    });
+  }
+
+  delComment(slug: string, id: number) {
+    return this.http.delete(`${this.url}/${slug}/comments/${id}`, {
+      headers: this.header
+    })
+  }
+
+  favoriteArticle(status: boolean, slug: string) {
+    let url = `https://conduit.productionready.io/api/articles/${slug}/favorite`;
+    if (status) {
+      return this.http.post(url, {}, {
+        headers: this.header
+      });
+    } else {
+      return this.http.delete(url, {
+        headers: this.header
+      });
+    }
+  }
 }

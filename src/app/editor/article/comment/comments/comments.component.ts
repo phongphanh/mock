@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Comments } from 'src/app/model/comment';
+import { ProfileService } from 'src/app/profile/profile.service';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-comments',
@@ -8,10 +10,15 @@ import { Comments } from 'src/app/model/comment';
 })
 export class CommentsComponent implements OnInit {
   @Input() comments: Comments;
+  @Input() curUser: User;
+  @Output() delComment = new EventEmitter();
 
-  constructor() { }
+  constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
   }
 
+  deleteComponent(id: number) {
+    this.delComment.emit(id);
+  }
 }

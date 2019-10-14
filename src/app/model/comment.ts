@@ -1,6 +1,6 @@
 import { Profile } from './profile';
 
-interface Comment {
+export interface Comment {
     "id": number;
     "createdAt": string;
     "updatedAt": string;
@@ -10,4 +10,8 @@ interface Comment {
 
 export interface Comments{
     comments: Comment[];
+}
+
+export interface CommentRes {
+    comment: Comment;
 }
