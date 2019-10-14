@@ -4,6 +4,7 @@ import { Articles } from 'src/app/model/articles';
 import { TagService } from '../tag.service';
 import { Tags } from 'src/app/model/tags';
 import { Article } from 'src/app/model/article';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,26 +13,29 @@ import { Article } from 'src/app/model/article';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private articleService: ArticleService, private tagService: TagService) { }
+  constructor(private articleService: ArticleService, private tagService: TagService, private authService: AuthService) { }
 
   lists: Article[];
   articlesCount: number;
-  tags;
+  tags: string[];
   limit: string = '10';
-  itemOfPage = Number(this.limit);
-  pagination = [];
-  offsetIndex = 0;
-  currentPage = 0;
-  tag: string;
-  currentTag: string = '';
+  itemOfPage: number = Number(this.limit);
+  pagination: number[] = [];
+  offsetIndex: number = 0;
+  currentPage: number = 0;
+  checkLogin: boolean = localStorage.getItem('token') != undefined ? true : false;
+  tab: string = localStorage.getItem('token') != 'null' ? 'feed' : 'global';
 
   ngOnInit() {
-    console.log('create');
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag='').subscribe((item: Articles) => {
-      this.lists = item.articles;
-      this.articlesCount = item.articlesCount;
-      this.setPage();
+    this.authService.loginEmit.subscribe((data: string) => {
+      this.checkLogin = data != '' || data != '' ? true : false;
     });
+
+    if(!this.checkLogin){
+      this.getArticleGlobal();
+    }else{
+      this.getArticleFeed();
+    }
 
     this.tagService.getTags().subscribe((item: Tags) => {
       this.tags = item.tags;
@@ -48,29 +52,49 @@ export class HomeComponent implements OnInit {
   changePage(event) {
     this.currentPage = event[1];
     this.offsetIndex = event[0];
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
-      this.lists = item.articles;
-      this.articlesCount = item.articlesCount;
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tab).subscribe((item: Articles) => {
+      this.getArticlesPerPage(item);
+    });
+  }
+
+  changeTab(tab: string) {
+    this.tab = tab; 
+    if (tab == 'feed') {
+      this.getArticleFeed();
+    } else if (tab == 'global') {
+      this.getArticleGlobal();
+    } else {
+      this.getTag(tab);
+    }
+  }
+
+  getArticleFeed() {
+    this.articleService.getArticlesWithLogin(this.limit, this.offsetIndex).subscribe((item: Articles) => {
+      this.getArticlesPerPage(item);
+      this.setPage();
+    });
+  }
+
+  getArticleGlobal() {
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag='').subscribe((item: Articles) => {
+      this.getArticlesPerPage(item);
+      this.setPage();
     });
   }
 
   getTag(param) {
-    this.tag = param;
-    this.currentTag = param;
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
-      this.lists = item.articles;
-      this.articlesCount = item.articlesCount;
+    this.articleService.getArticles(this.limit, this.offsetIndex, param).subscribe((item: Articles) => {
+      this.getArticlesPerPage(item);
       this.setPage();
     });
   }
 
-  changeFeed(){
-    this.currentTag = '';
-    this.tag = '';
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
-      this.lists = item.articles;
-      this.articlesCount = item.articlesCount;
-      this.setPage();
-    });
+  paginateResult() {
+    
+  }
+
+  getArticlesPerPage(data) {
+    this.lists = data.articles;
+    this.articlesCount = data.articlesCount;
   }
 }
