@@ -16,9 +16,10 @@ import { MarkdownModule } from 'ngx-markdown';
 import { CommentComponent } from './article/comment/comment.component';
 import { CommentBoxComponent } from './article/comment/comment-box/comment-box.component';
 import { CommentsComponent } from './article/comment/comments/comments.component';
+import { ArticleMetaComponent } from './article/article-meta/article-meta.component';
 
 @NgModule({
-  declarations: [EditorComponent, ArticleComponent, TagInputComponent, CommentComponent, CommentBoxComponent, CommentsComponent],
+  declarations: [EditorComponent, ArticleComponent, TagInputComponent, CommentComponent, CommentBoxComponent, CommentsComponent, ArticleMetaComponent],
   imports: [
     CommonModule,
     EditorRoutingModule,

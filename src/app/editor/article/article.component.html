@@ -1,99 +1,34 @@
 <div class="article-page">
-
     <div class="banner">
         <div class="container">
-
             <h1>{{ article?.article.title }}</h1>
-
-            <div class="article-meta">
-                <a href=""><img [src]="article?.article.author.image" /></a>
-                <div class="info">
-                    <a href="" class="author">{{ article?.article.author.username }}</a>
-                    <span class="date">{{ article?.article.createdAt | date: 'MMMM dd, yyyy' }}</span>
-                </div>
-                <span *ngIf="article?.article.author.username != curUser?.user.username; else ownAuthor">
-                    <button [ngClass]="{'btn': true, 'btn-sm': true, 'btn-outline-secondary': !article?.article.author.following, 'btn-secondary': article?.article.author.following}" (click)="followAuthor(!article?.article.author.following)">
-                        <i class="ion-plus-round"></i>
-                        &nbsp;
-                        {{ article?.article.author.following ? 'Unfollow' : 'Follow' }} {{ article?.article.author.username }}
-                    </button>
-                    &nbsp;&nbsp;
-                    <button [ngClass]="{'btn': true, 'btn-sm': true, 'btn-outline-primary': !article?.article.favorited, 'btn-primary': article?.article.favorited}" (click)="favoriteArticle(!article?.article.favorited)">
-                        <i class="ion-heart"></i>
-                        &nbsp;
-                        {{ article?.article.favorited ? 'UnFavorite' : 'Favorite' }} Post <span class="counter">({{ article?.article.favoritesCount }})</span>
-                    </button>
-                </span>
-                <ng-template #ownAuthor>
-                    <a [ngClass]="{'btn': true, 'btn-sm': true}" href="#/editor/asd-49y27p">
-                        <i class="ion-edit"></i> Edit Article
-                    </a>
-
-                    <button class="btn btn-outline-danger btn-sm" ng-class="{disabled: $ctrl.isDeleting}"
-                        ng-click="$ctrl.deleteArticle()">
-                        <i class="ion-trash-a"></i> Delete Article
-                    </button>
-                </ng-template>
-
-            </div>
-
+            <app-article-meta [curSlug]="curSlug" [curUser]="curUser" [article]="article?.article"
+                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)"></app-article-meta>
         </div>
     </div>
 
     <div class="container page">
-
         <div class="row article-content">
             <div markdown ngPreserveWhitespaces class="col-md-12" [data]="article?.article.body"></div>
         </div>
         <ul class="tag-list">
             <li class="tag-default tag-pill tag-outline ng-binding ng-scope"
-                *ngFor="let tag of article?.article.tagList">{{ tag }}</li>
+                *ngFor="let tag of article?.article.tagList">
+                {{ tag }}
+            </li>
         </ul>
         <hr />
-
         <div class="article-actions">
-            <div class="article-meta">
-                <a href="profile.html"><img [src]="article?.article.author.image" /></a>
-                <div class="info">
-                    <a href="" class="author">{{ article?.article.author.username }}</a>
-                    <span class="date">{{ article?.article.createdAt | date: 'MMMM dd, yyyy' }}</span>
-                </div>
-
-                <span *ngIf="article?.article.author.username != curUser?.user.username; else ownAuthor">
-                    <button [ngClass]="{'btn': true, 'btn-sm': true, 'btn-outline-secondary': !article?.article.author.following, 'btn-secondary': article?.article.author.following}" (click)="followAuthor(!article?.article.author.following)">
-                        <i class="ion-plus-round"></i>
-                        &nbsp;
-                        {{ article?.article.author.following ? 'Unfollow' : 'Follow' }} {{ article?.article.author.username }}
-                    </button>
-                    &nbsp;&nbsp;
-                    <button [ngClass]="{'btn': true, 'btn-sm': true, 'btn-outline-primary': !article?.article.favorited, 'btn-primary': article?.article.favorited}">
-                        <i class="ion-heart"></i>
-                        &nbsp;
-                        Favorite Post <span class="counter">({{ article?.article.favoritesCount }})</span>
-                    </button>
-                </span>
-                <ng-template #ownAuthor>
-                    <a class="btn btn-outline-secondary btn-sm" ui-sref="app.editor({ slug: $ctrl.article.slug })"
-                        href="#/editor/asd-49y27p">
-                        <i class="ion-edit"></i> Edit Article
-                    </a>
-
-                    <button class="btn btn-outline-danger btn-sm" ng-class="{disabled: $ctrl.isDeleting}"
-                        ng-click="$ctrl.deleteArticle()">
-                        <i class="ion-trash-a"></i> Delete Article
-                    </button>
-                </ng-template>
-            </div>
+            <app-article-meta [curSlug]="curSlug" [curUser]="curUser" [article]="article?.article"
+                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)"></app-article-meta>
         </div>
-
-        <div class="row">
-
-            <div class="col-xs-12 col-md-8 offset-md-2">
-                <app-comment [slug]="curSlug" [curUser]="curUser"></app-comment>
-            </div>
-
-        </div>
-
     </div>
+</div>
 
+<div class="article-page">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+            <app-comment [slug]="curSlug" [curUser]="curUser"></app-comment>
+        </div>
+    </div>
 </div>

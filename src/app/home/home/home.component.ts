@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
   }
 
   getArticleGlobal() {
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tab).subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, this.offsetIndex, '').subscribe((item: Articles) => {
       this.getArticlesPerPage(item);
       this.setPage();
     });

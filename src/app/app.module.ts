@@ -13,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
 import { EditorRoutingModule } from './editor/editor-routing.module';
 import { EditorModule } from './editor/editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { ProfileModule } from ''
 
 @NgModule({
   declarations: [

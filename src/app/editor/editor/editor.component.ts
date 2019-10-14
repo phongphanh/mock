@@ -11,17 +11,22 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class EditorComponent implements OnInit {
   editorForm: FormGroup;
+  status: string;
+  slug: string;
 
   constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param: ParamMap) => {
       if (param.get('slug') != null) {
-        this.articleService.articleDetail(param.get('slug')).subscribe((data: ArticleDetail) => {
+        this.slug = param.get('slug');
+        this.articleService.articleDetail(this.slug).subscribe((data: ArticleDetail) => {
           this.createForm(data.article);
+          this.status = 'update';
         });
       } else {
         this.createForm(undefined);
+        this.status = 'create';
       }
     });
   }
@@ -32,16 +37,21 @@ export class EditorComponent implements OnInit {
 
   onSubmit() {
     if (this.editorForm.valid) {
-      this.articleService.createArticle(this.editorForm.value).subscribe((data: ArticleDetail) => {
-        this.router.navigate(['article', data.article.slug]);
-      }, (error) => {
-        console.log(error);
-      });
+      if (this.status == 'create') {
+        this.articleService.createArticle(this.editorForm.value).subscribe((data: ArticleDetail) => {
+          this.router.navigate(['article', this.slug]);
+        }, (error) => {
+          console.log(error);
+        });
+      } else {
+        this.articleService.editArticle(this.editorForm.value, this.slug).subscribe((data: ArticleDetail) => {
+          this.router.navigate(['article', this.slug]);
+        })
+      }
     }
   }
 
   getTags(listTag: string[]) {
-    console.log(listTag);
     this.editorForm.controls.tagList.setValue(listTag);
   }
 

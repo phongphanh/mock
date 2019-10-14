@@ -23,8 +23,6 @@ export class ArticleComponent implements OnInit {
       this.curSlug = param.get('slug');
       this.articleService.articleDetail(param.get('slug')).subscribe((data: ArticleDetail) => {
         this.article = data;
-        console.log(this.article);
-        
       });
     });
 
