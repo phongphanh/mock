@@ -12,8 +12,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { TagInputComponent } from './editor/tag-input/tag-input.component';
 
+import { MarkdownModule } from 'ngx-markdown';
+import { CommentComponent } from './article/comment/comment.component';
+import { CommentBoxComponent } from './article/comment/comment-box/comment-box.component';
+import { CommentsComponent } from './article/comment/comments/comments.component';
+
 @NgModule({
-  declarations: [EditorComponent, ArticleComponent, TagInputComponent],
+  declarations: [EditorComponent, ArticleComponent, TagInputComponent, CommentComponent, CommentBoxComponent, CommentsComponent],
   imports: [
     CommonModule,
     EditorRoutingModule,
@@ -23,7 +28,8 @@ import { TagInputComponent } from './editor/tag-input/tag-input.component';
     MatChipsModule,
     MatAutocompleteModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MarkdownModule.forRoot(),
   ]
 })
 export class EditorModule { }

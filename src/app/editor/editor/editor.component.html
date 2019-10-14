@@ -3,23 +3,23 @@
         <div class="row">
 
             <div class="col-md-10 offset-md-1 col-xs-12">
-                <form #editorArticle="ngForm" name="editorArticle" (ngSubmit)="onSubmit(editorArticle)">
+                <form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
                     <fieldset>
                         <mat-form-field class="w-100 mb-2">
-                            <input matInput type="text" placeholder="Article Title" name="title" #title="ngModel" [(ngModel)]="articleTitle" required maxlength="200">
-                            <mat-error *ngIf="title.hasError('required')">Title is required</mat-error>
-                            <mat-error *ngIf="title.hasError('maxlength')">Title is too long (maximum is 200 characters)</mat-error>
+                            <input matInput type="text" placeholder="Article Title" formControlName="title">
+                            <mat-error *ngIf="editorFormControls['title'].hasError('required')">Title is required</mat-error>
+                            <mat-error *ngIf="editorFormControls['title'].hasError('maxlength')">Title is too long (maximum is 200 characters)</mat-error>
                         </mat-form-field>
                         <mat-form-field class="w-100 mb-2">
-                            <input matInput type="text" placeholder="What's this article about?" name="description" #description="ngModel" [(ngModel)]="articleDescription" required maxlength="500">
-                            <mat-error *ngIf="description.hasError('required')">Description is required</mat-error>
-                            <mat-error *ngIf="description.hasError('maxlength')">Description is too long (maximum is 500 characters)</mat-error>
+                            <input matInput type="text" placeholder="What's this article about?" formControlName="description">
+                            <mat-error *ngIf="editorFormControls['description'].hasError('required')">Description is required</mat-error>
+                            <mat-error *ngIf="editorFormControls['description'].hasError('maxlength')">Description is too long (maximum is 500 characters)</mat-error>
                         </mat-form-field>
                         <mat-form-field class="w-100 mb-2">
-                            <textarea matInput rows="8" placeholder="Write your article (in markdown)" name="body" #body="ngModel" [(ngModel)]="articleBody" required></textarea>
-                            <mat-error *ngIf="body.hasError('required')">Body is required</mat-error>
+                            <textarea matInput rows="8" placeholder="Write your article (in markdown)" formControlName="body"></textarea>
+                            <mat-error *ngIf="editorFormControls['body'].hasError('required')">Body is required</mat-error>
                         </mat-form-field>
-                        <app-tag-input></app-tag-input>
+                        <app-tag-input [tags]="editorFormControls['tagList'].value" (getTags)="getTags($event)"></app-tag-input>
                         <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                             Publish Article
                         </button>

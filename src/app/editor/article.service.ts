@@ -40,8 +40,13 @@ export class ArticleService {
   }
 
   createArticle(value: ArticleDetail) {
-    value['tagList'] = value['tagList'].split(' ');
     return this.http.post(this.url, { article: value }, {
+      headers: this.header
+    });
+  }
+
+  getCommnets(slug: string) {
+    return this.http.get(`${this.url}/${slug}/comments`, {
       headers: this.header
     });
   }

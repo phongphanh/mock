@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -14,15 +14,17 @@ import { Tags } from 'src/app/model/tags';
   styleUrls: ['./tag-input.component.css']
 })
 export class TagInputComponent implements OnInit {
+  @Output() getTags = new EventEmitter();
+  @Input() tags: string[] = [];
+  
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  tagCtrl = new FormControl();
+  tagCtrl = new FormControl('');
   filteredTags: Observable<string[]>;
-  tags: string[] = [];
   allTags: string[] = [];
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
@@ -37,7 +39,9 @@ export class TagInputComponent implements OnInit {
   ngOnInit() {
     this.tagService.getTags().subscribe((data: Tags) => {
       this.allTags = data.tags
-    })
+    });
+    
+    
   }
 
   add(event: MatChipInputEvent): void {
@@ -48,13 +52,15 @@ export class TagInputComponent implements OnInit {
       if ((value || '').trim()) {
         this.tags.push(value.trim());
       }
-
+      
       // Reset the input value
       if (input) {
         input.value = '';
       }
 
       this.tagCtrl.setValue(null);
+
+      this.getTags.emit(this.tags);
     }
   }
 

@@ -36,7 +36,7 @@
                 <i class="ion-heart"></i> {{item.favoritesCount}}
               </button>
             </div>
-            <a [routerLink]="['/article']" routerLinkActive="router-link-active" class="preview-link">
+            <a [routerLink]="['/article', item.slug]" routerLinkActive="router-link-active" class="preview-link">
               <h1>{{item.title}}</h1>
               <p>{{item.description}}</p>
               <span>Read more...</span>

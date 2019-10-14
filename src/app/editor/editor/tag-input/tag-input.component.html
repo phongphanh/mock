@@ -7,7 +7,8 @@
         </mat-chip>
         <input placeholder="Enter tags" #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" [ngClass]="{'ng-invalid': true}" aria-invalid="true" aria-describedby="mat-error-1">
+        
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let fruit of filteredTags | async" [value]="fruit">
