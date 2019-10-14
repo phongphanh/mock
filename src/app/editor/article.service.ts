@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ArticleDetail } from '../model/article';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 
 @Injectable({
   providedIn: 'root'
@@ -91,5 +92,24 @@ export class ArticleService {
         headers: this.header
       });
     }
+  }
+  getArticleWithOtherUser(author: string, limit, offset){
+    return this.http.get(this.url, {
+      params:{
+        author: author,
+        limit: limit,
+        offset: offset
+      }
+    });
+  }
+
+  getFavoritedArticles(favorited: string, limit, offset){
+    return this.http.get(this.url, {
+      params: {
+        favorited: favorited,
+        limit: limit,
+        offset: offset
+      }
+    })
   }
 }

@@ -39,4 +39,10 @@ export class ProfileService {
       })
     }
   }
+  
+  getProfile(user){
+    return this.http.get(`https://conduit.productionready.io/api/profiles/${user}`, {
+
+    });
+  }
 }
