@@ -28,31 +28,15 @@
         <div class="articles-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link active">My Articles</a>
+              <a class="nav-link" (click)="changeTab('')" [ngClass]="{active: currentTab == ''}">My Articles</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">Favorited Articles</a>
+              <a class="nav-link" [routerLink]="['favorites']" (click)="changeTab('favorites')" [ngClass]="{active: currentTab == 'favorites'}">Favorited Articles</a>
             </li>
           </ul>
         </div>
-
-        <div class="article-preview" *ngFor="let item of listArticle">
-          <div class="article-meta">
-            <a href=""><img [src]="item.author?.image" /></a>
-            <div class="info">
-              <a class="author">{{item?.author?.username}}</a>
-              <span class="date">{{item.createdAt | date:'longDate'}}</span>
-            </div>
-            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> {{item.favoritesCount}}
-            </button>
-          </div>
-          <a [routerLink]="['/article', item.slug]" class="preview-link">
-            <h1>{{item.title}}</h1>
-            <p>{{item.description}}</p>
-            <span>Read more...</span>
-          </a>
-        </div>
+        
+        <app-sub-article [lists]="lists"></app-sub-article>
         <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
 
       </div>
