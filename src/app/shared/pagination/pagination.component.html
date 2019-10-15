@@ -1,0 +1,7 @@
+<ul class="pagination">
+    <li *ngFor="let item of pagination; index as i" class="page-item ng-scope" (click)="changePage(itemOfPage*i, i)"
+      [ngClass]="currentPage == i ? 'active' : ''" #page>
+      <a class="page-link ng-binding">{{item + 1}}</a>
+    </li>
+  </ul>
+  

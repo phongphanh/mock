@@ -4,14 +4,18 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PaginationComponent } from '../common/pagination/pagination.component';
+import { PaginationComponent } from '../shared/pagination/pagination.component';
+import { SharedModule } from '../shared/shared.module';
+// import { PaginationComponent } from '../common/pagination/pagination.component';
 
 @NgModule({
-  declarations: [HomeComponent, PaginationComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+    SharedModule
+  ],
+  providers: []
 })
 export class HomeModule { }

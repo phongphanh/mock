@@ -13,6 +13,8 @@ import { AuthModule } from './auth/auth.module';
 import { EditorRoutingModule } from './editor/editor-routing.module';
 import { EditorModule } from './editor/editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileRoutingModule } from './profile/profile-routing.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditorModule,
     EditorRoutingModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ProfileRoutingModule,
+    ProfileModule
   ],
   providers: [],
   bootstrap: [AppComponent]
