@@ -66,10 +66,7 @@ export class HomeComponent implements OnInit {
 
   changeTab(tab: string) {
     this.tab = tab;
-<<<<<<< HEAD
-=======
     this.tag = '';
->>>>>>> 357ca79a9bc38e8c5efc8176ff2dbc49ac5cfed3
     if (tab == 'feed') {
       this.getArticleFeed();
     } else if (tab == 'global') {
