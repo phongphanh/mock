@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Article } from 'src/app/model/article';
 import { User } from 'src/app/model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-meta',
@@ -13,17 +14,30 @@ export class ArticleMetaComponent implements OnInit {
   @Input() curSlug: string;
   @Output() setFollow = new EventEmitter();
   @Output() setFavorite = new EventEmitter;
+  @Input() isLogin: boolean = localStorage.getItem('token') != undefined;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   followAuthor(status: boolean) {
-    this.setFollow.emit(status);
+    if (this.isLogin) {
+      this.setFollow.emit(status);
+    } else {
+      this.navigateToLogin();
+    }
   }
 
   favoriteArticle(status: boolean) {
-    this.setFavorite.emit(status);
+    if (this.isLogin) {
+      this.setFavorite.emit(status);
+    } else {
+      this.navigateToLogin();
+    }
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 }

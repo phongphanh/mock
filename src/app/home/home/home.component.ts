@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.authService.loginEmit.subscribe((data: string) => {
-      this.checkLogin = data != '' || data != '' ? true : false;
+      this.checkLogin = data != '' ? true : false;
     });
 
     if (!this.checkLogin) {

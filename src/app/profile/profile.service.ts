@@ -14,8 +14,12 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUser() {
+    let headers = new HttpHeaders({
+      Accept: 'application/json',
+      Authorization: `Token ${localStorage.getItem('token')}`
+    });
     return this.http.get('https://conduit.productionready.io/api/user', {
-      headers: this.header,
+      headers: headers,
     })
   }
 

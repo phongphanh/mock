@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ArticleDetail } from 'src/app/model/article';
 import { User } from 'src/app/model/user';
 import { ProfileService } from 'src/app/profile/profile.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-article',
@@ -15,21 +16,30 @@ export class ArticleComponent implements OnInit {
   article: ArticleDetail;
   curSlug: string;
   curUser: User;
+  isLogin: boolean = localStorage.getItem('token') != undefined;
   
-  constructor(private articleService: ArticleService, private route: ActivatedRoute, private profileService: ProfileService) { }
+  constructor(private articleService: ArticleService, private route: ActivatedRoute, private profileService: ProfileService, private authService: AuthService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.curSlug = param.get('slug');
-      this.articleService.articleDetail(param.get('slug')).subscribe((data: ArticleDetail) => {
+      this.articleService.articleDetail(param.get('slug'), this.isLogin).subscribe((data: ArticleDetail) => {
         this.article = data;
       });
     });
 
-    this.profileService.getUser().subscribe((data: User) => {
-      this.curUser = data;
-      
-    });
+    if (this.isLogin) {
+      this.profileService.getUser().subscribe((data: User) => {
+        this.curUser = data;
+      });
+    }
+
+    this.authService.loginEmit.subscribe((data: string) => {
+      this.isLogin = data != '';
+      this.profileService.getUser().subscribe((data: User) => {
+        this.curUser = data;
+      });
+    })
   }
 
   followAuthor(isFollow: boolean) {
