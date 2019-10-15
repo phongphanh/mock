@@ -13,12 +13,12 @@ export class CommentComponent implements OnInit {
   @Input() slug: string;
   @Input() curUser: User;
   comments: Comments;
+  isLogin: boolean = localStorage.getItem('token') != undefined;
 
   constructor(private articleService: ArticleService) { }
 
   ngOnInit() {
-    this.articleService.getCommnets(this.slug).subscribe((res: Comments) => {
-      console.log(res);
+    this.articleService.getCommnets(this.slug, this.isLogin).subscribe((res: Comments) => {
       this.comments = res;
     }, (error) => {
       console.log(error);

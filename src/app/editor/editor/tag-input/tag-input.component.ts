@@ -23,7 +23,7 @@ export class TagInputComponent implements OnInit {
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  tagCtrl = new FormControl('');
+  tagCtrl = new FormControl('', [Validators.required]);
   filteredTags: Observable<string[]>;
   allTags: string[] = [];
 

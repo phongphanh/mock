@@ -1,2 +1,13 @@
-<app-comment-box [slug]="slug" [curUser]="curUser" (addComment)="addComment($event)"></app-comment-box>
+<div *ngIf="curUser != undefined; else notComment">
+    <app-comment-box [slug]="slug" [curUser]="curUser" (addComment)="addComment($event)"></app-comment-box>
+</div>
+<ng-template #notComment>
+    <div class="col-xs-12 col-md-8 offset-md-2">
+        <p show-authed="false" style="display: inherit;">
+            <a ui-sref="app.login" [routerLink]="['/login']" routerLinkActive="router-link-active" >Sign in</a> or <a ui-sref="app.register" [routerLink]="['/register']" routerLinkActive="router-link-active" >sign up</a> to
+            add comments on this article.
+        </p>
+    </div>
+</ng-template>
+
 <app-comments [comments]="comments" [curUser]="curUser" (delComment)="delComment($event)"></app-comments>

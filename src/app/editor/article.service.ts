@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ArticleDetail, Article } from '../model/article';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleService {
+export class ArticleService{
   url = 'https://conduit.productionready.io/api/articles';
   header = new HttpHeaders({
     Accept: 'application/json',
@@ -43,10 +44,18 @@ export class ArticleService {
   }
 
   //get article detail
-  articleDetail(slug: string) {
-    return this.http.get(`${this.url}/${slug}`, {
-      headers: this.header
-    })
+  articleDetail(slug: string, isLogin: boolean) {
+    let headers = new HttpHeaders({
+      Accept: 'application/json',
+      Authorization: `Token ${localStorage.getItem('token')}`
+    });
+    if (isLogin) {
+      return this.http.get(`${this.url}/${slug}`, {
+        headers: headers
+      })
+    } else {
+      return this.http.get(`${this.url}/${slug}`);
+    }
   }
 
   //create artile
@@ -64,10 +73,18 @@ export class ArticleService {
   }
 
   //get list comment of article
-  getCommnets(slug: string) {
-    return this.http.get(`${this.url}/${slug}/comments`, {
-      headers: this.header
+  getCommnets(slug: string, isLogin: boolean) {
+    let headers = new HttpHeaders({
+      Accept: 'application/json',
+      Authorization: `Token ${localStorage.getItem('token')}`
     });
+    if (isLogin) {
+      return this.http.get(`${this.url}/${slug}/comments`, {
+        headers: headers
+      });
+    } else {
+      return this.http.get(`${this.url}/${slug}/comments`);
+    }
   }
 
   //add comment author

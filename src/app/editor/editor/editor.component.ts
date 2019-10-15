@@ -13,6 +13,7 @@ export class EditorComponent implements OnInit {
   editorForm: FormGroup;
   status: string;
   slug: string;
+  isLogin: boolean = localStorage.getItem('token') != undefined;
 
   constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -20,7 +21,7 @@ export class EditorComponent implements OnInit {
     this.route.paramMap.subscribe((param: ParamMap) => {
       if (param.get('slug') != null) {
         this.slug = param.get('slug');
-        this.articleService.articleDetail(this.slug).subscribe((data: ArticleDetail) => {
+        this.articleService.articleDetail(this.slug, this.isLogin).subscribe((data: ArticleDetail) => {
           this.createForm(data.article);
           this.status = 'update';
         });
