@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   currentPage: number = 0;
   checkLogin: boolean = localStorage.getItem('token') != undefined ? true : false;
   tab: string = localStorage.getItem('token') != 'null' ? 'feed' : 'global';
+  tag: string = '';
 
   ngOnInit() {
     this.authService.loginEmit.subscribe((data: string) => {
@@ -44,21 +45,31 @@ export class HomeComponent implements OnInit {
 
   setPage() {
     this.pagination = [];
+    this.resetPage();
     for (let i = 0; i < Math.round(this.articlesCount / Number(this.limit)); i++) {
       this.pagination.push(i);
     }
   }
 
+  resetPage() {
+    this.offsetIndex = 0;
+    this.currentPage = 0;
+  }
+
   changePage(event) {
     this.currentPage = event[1];
     this.offsetIndex = event[0];
-    this.articleService.getArticles(this.limit, this.offsetIndex, this.tab).subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
       this.getArticlesPerPage(item);
     });
   }
 
   changeTab(tab: string) {
     this.tab = tab;
+<<<<<<< HEAD
+=======
+    this.tag = '';
+>>>>>>> 357ca79a9bc38e8c5efc8176ff2dbc49ac5cfed3
     if (tab == 'feed') {
       this.getArticleFeed();
     } else if (tab == 'global') {
@@ -76,14 +87,15 @@ export class HomeComponent implements OnInit {
   }
 
   getArticleGlobal() {
-    this.articleService.getArticles(this.limit, this.offsetIndex, '').subscribe((item: Articles) => {
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
       this.getArticlesPerPage(item);
       this.setPage();
     });
   }
 
   getTag(param) {
-    this.articleService.getArticles(this.limit, this.offsetIndex, param).subscribe((item: Articles) => {
+    this.tag = param;
+    this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
       this.getArticlesPerPage(item);
       this.setPage();
     });
