@@ -20,7 +20,7 @@
                             <mat-error *ngIf="editorFormControls['body'].hasError('required')">Body is required</mat-error>
                         </mat-form-field>
                         <app-tag-input [tags]="editorFormControls['tagList'].value" (getTags)="getTags($event)"></app-tag-input>
-                        <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
+                        <button class="btn btn-lg pull-xs-right btn-primary" type="submit" [disabled]="editorForm.invalid">
                             Publish Article
                         </button>
                     </fieldset>

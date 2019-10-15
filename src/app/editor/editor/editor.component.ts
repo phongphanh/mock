@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article, ArticleDetail } from 'src/app/model/article';
 import { ArticleService } from '../article.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-editor',
@@ -40,13 +40,15 @@ export class EditorComponent implements OnInit {
     if (this.editorForm.valid) {
       if (this.status == 'create') {
         this.articleService.createArticle(this.editorForm.value).subscribe((data: ArticleDetail) => {
-          this.router.navigate(['article', this.slug]);
+          this.slug = data.article.slug;
+          this.router.navigate(['/article', this.slug]);
         }, (error) => {
           console.log(error);
         });
       } else {
         this.articleService.editArticle(this.editorForm.value, this.slug).subscribe((data: ArticleDetail) => {
-          this.router.navigate(['article', this.slug]);
+          this.slug = data.article.slug;
+          this.router.navigate(['/article', this.slug]);
         })
       }
     }
@@ -61,7 +63,11 @@ export class EditorComponent implements OnInit {
       title: [article? article.title : '', Validators.required],
       description: [article? article.description : '', Validators.required],
       body: [article? article.body : '', Validators.required],
-      tagList: [article? article.tagList : [], Validators.required]
+      tagList: [article? article.tagList : [], isNullArr]
     })
   }
+}
+
+function isNullArr(control: AbstractControl): ValidationErrors | null {
+  return control.value.length == 0 ? {'isNull': true} : null;
 }

@@ -7,12 +7,13 @@
         </mat-chip>
         <input placeholder="Enter tags" #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" [ngClass]="{'ng-invalid': true}" aria-invalid="true" aria-describedby="mat-error-1">
-        
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" class="w-100" aria-invalid="true" aria-describedby="mat-error-1">
     </mat-chip-list>
+    
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let fruit of filteredTags | async" [value]="fruit">
             {{fruit}}
         </mat-option>
     </mat-autocomplete>
 </mat-form-field>
+<mat-error style="margin-top: -17px; font-size: 75%;" *ngIf="isValid">Tags is required</mat-error>
