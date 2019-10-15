@@ -18,9 +18,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="active">
-                            {{ userName }}
-                        </a>
+                        <a class="nav-link" [routerLink]="['/@' + userName]" routerLinkActive="active">{{ userName }}</a>
                     </li>
                 </ng-template>
                 <ng-template [ngIf]="!isLogin">

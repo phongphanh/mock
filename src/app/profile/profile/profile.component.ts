@@ -9,8 +9,7 @@ import { Article } from 'src/app/model/article';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
-  inputs: ['currentPage', 'itemOfPage']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
 
@@ -18,37 +17,53 @@ export class ProfileComponent implements OnInit {
 
   username;
   user: ProfileRes;
-  listArticle: Article[];
+  lists: Article[];
   pagination = [];
   articlesCount: number;
-  limit: string = '10';
+  limit: string = '5';
   offsetIndex: number = 0;
-  currentPage;
-  itemOfPage;
+  currentPage: number = 0;
+  itemOfPage: number = Number(this.limit);
+  paramUser;
+  currentTab: string = '';
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get("username");
-    let paramUser = this.username.split('');
-    paramUser.shift();
-    paramUser = paramUser.join('');
-    this.profileService.getProfile(paramUser).subscribe((data: ProfileRes) => {
-      this.user = data;
+    this.username = this.route.paramMap.subscribe(data => {
+      this.paramUser = data.get('username').split('');
+      this.paramUser.shift();
+      this.paramUser = this.paramUser.join('');
+      this.profileService.getProfile(this.paramUser).subscribe((data: ProfileRes) => {
+        this.user = data;
+      });
+      this.myArticle();
     });
 
-    this.articleService.getArticleWithOtherUser(paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) =>{
-      this.listArticle = data.articles;
-      this.setPage();
-    });
+  }
 
-    this.articleService.getFavoritedArticles(paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
-      this.listArticle = data.articles;
+  myArticle() {
+    this.articleService.getArticleWithOtherUser(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
+      this.getDataPerPage(data);
+      console.log(data);
       this.setPage();
     });
   }
 
+  favoritedArticle() {
+    this.articleService.getFavoritedArticles(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
+      this.getDataPerPage(data);
+      console.log(data);
+      this.setPage();
+    });
+  }
+
+  getDataPerPage(data) {
+    this.lists = data.articles;
+    this.articlesCount = data.articlesCount;
+  }
+
   setPage() {
     this.pagination = [];
-    for (let i = 0; i < Math.round(this.articlesCount / Number(this.limit)); i++) {
+    for (let i = 0; i < Math.ceil(this.articlesCount / Number(this.limit)); i++) {
       this.pagination.push(i);
     }
   }
@@ -56,8 +71,24 @@ export class ProfileComponent implements OnInit {
   changePage(event) {
     this.currentPage = event[1];
     this.offsetIndex = event[0];
-    // this.articleService.getArticles(this.limit, this.offsetIndex, this.tab).subscribe((item: Articles) => {
-    //   this.getArticlesPerPage(item);
-    // });
+    if(this.currentTab == ''){
+      this.articleService.getArticleWithOtherUser(this.paramUser, this.offsetIndex, this.offsetIndex).subscribe((item: Articles) => {
+        this.getDataPerPage(item);
+      });
+    }else{
+      this.articleService.getFavoritedArticles(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
+        this.getDataPerPage(data);
+      });
+    }
+    
+  }
+
+  changeTab(tab: string) {
+    this.currentTab = tab;
+    if(tab == ''){
+      this.myArticle();
+    }else if(tab == 'favorites'){
+      this.favoritedArticle();
+    }
   }
 }

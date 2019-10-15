@@ -1,0 +1,22 @@
+<div class="article-preview" *ngFor="let item of lists">
+  <div class="article-meta">
+    <a [routerLink]="['/@' + item?.author?.username]"><img [src]="item.author.image" /></a>
+    <div class="info">
+      <a [routerLink]="['/@' + item?.author?.username]" class="author">{{item.author.username}}</a>
+      <span class="date">{{item.createdAt | date}}</span>
+    </div>
+    <button class="btn btn-outline-primary btn-sm pull-xs-right">
+      <i class="ion-heart"></i> {{item.favoritesCount}}
+    </button>
+  </div>
+  <a [routerLink]="['/article', item.slug]" routerLinkActive="router-link-active" class="preview-link">
+    <h1>{{item.title}}</h1>
+    <p>{{item.description}}</p>
+    <span>Read more...</span>
+    <ul class="tag-list">
+      <li class="tag-default tag-pill tag-outline ng-binding ng-scope" *ngFor="let item of item.tagList">
+        {{item}}
+      </li>
+    </ul>
+  </a>
+</div>

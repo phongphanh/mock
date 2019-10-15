@@ -25,34 +25,8 @@
           </ul>
         </div>
         <div>
-          <div class="article-preview" *ngFor="let item of lists">
-            <div class="article-meta">
-              <a href="profile.html"><img [src]="item.author.image" /></a>
-              <div class="info">
-                <a [routerLink]="['@' + item?.author?.username]" class="author">{{item.author.username}}</a>
-                <span class="date">{{item.createdAt | date}}</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> {{item.favoritesCount}}
-              </button>
-            </div>
-            <a [routerLink]="['/article', item.slug]" routerLinkActive="router-link-active" class="preview-link">
-              <h1>{{item.title}}</h1>
-              <p>{{item.description}}</p>
-              <span>Read more...</span>
-              <ul class="tag-list">
-                <li class="tag-default tag-pill tag-outline ng-binding ng-scope" *ngFor="let item of item.tagList">
-                  {{item}}
-                </li>
-              </ul>
-            </a>
-          </div>
-          <!-- <ul class="pagination">
-            <li *ngFor="let item of pagination; index as i" class="page-item ng-scope"
-              (click)="changePage(itemOfPage*i, i)" [ngClass]="currentPage == i ? 'active' : ''" #page>
-              <a class="page-link ng-binding">{{item + 1}}</a>
-            </li>
-          </ul> -->
+          <app-sub-article [lists]="lists"></app-sub-article>
+          
           <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
         </div>
       </div>
