@@ -2,15 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeModule } from './home/home.module';
 
-
 const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(mod => mod.SettingsModule)
-  },
-  {
-    path: '@:username',
-    loadChildren: () => import('./profile/profile.module').then(mod => mod.ProfileModule)
   },
   {
     path: '',

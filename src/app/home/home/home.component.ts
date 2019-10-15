@@ -31,9 +31,9 @@ export class HomeComponent implements OnInit {
       this.checkLogin = data != '' || data != '' ? true : false;
     });
 
-    if(!this.checkLogin){
+    if (!this.checkLogin) {
       this.getArticleGlobal();
-    }else{
+    } else {
       this.getArticleFeed();
     }
 
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(tab: string) {
-    this.tab = tab; 
+    this.tab = tab;
     if (tab == 'feed') {
       this.getArticleFeed();
     } else if (tab == 'global') {

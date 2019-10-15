@@ -12,7 +12,7 @@ export class ArticleService {
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
   });
-  tag;
+  
   author;
   favorited;
 
