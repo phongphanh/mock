@@ -4,7 +4,9 @@
             <a class="navbar-brand" href="index.html">conduit</a>
             <ul class="nav navbar-nav pull-xs-right">
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/']" routerLinkActive="active">Home</a>
+                    <a class="nav-link" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        Home
+                    </a>
                 </li>
                 <ng-template [ngIf]="isLogin">
                     <li class="nav-item">

@@ -7,18 +7,27 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleService{
+export class ArticleService {
   url = 'https://conduit.productionready.io/api/articles';
-  header = new HttpHeaders({
+  header = localStorage.getItem('token') != undefined ? new HttpHeaders({
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
+  }) : new HttpHeaders({
+    Accept: 'application/json',
   });
-  
-  author;
-  favorited;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { 
+    authService.loginEmit.subscribe((data: string) => {
+      this.header = data != undefined ? new HttpHeaders({
+        Accept: 'application/json',
+        Authorization: `Token ${localStorage.getItem('token')}`
+      }) : new HttpHeaders({
+        Accept: 'application/json',
+      });
+    })
+  }
 
+  //get all articles
   public getArticles(limit, offset, tag?): Observable<any> {
     return this.http.get(this.url,
       {
@@ -27,12 +36,13 @@ export class ArticleService{
           offset: offset,
           tag: tag
         },
+        headers: this.header
       });
   }
 
-  //get article with user
-  public getArticlesWithLogin(limit, offset): Observable<any>{
-    return this.http.get(this.url + '/feed',{
+  //get article with user - article feed
+  public getArticlesWithLogin(limit, offset): Observable<any> {
+    return this.http.get(this.url + '/feed', {
       params: {
         limit: limit,
         offset: offset
@@ -119,23 +129,31 @@ export class ArticleService{
     }
   }
 
-  getArticleWithOtherUser(author: string, limit, offset){
+  getArticleWithOtherUser(author: string, limit, offset) {
     return this.http.get(this.url, {
-      params:{
+      params: {
         author: author,
         limit: limit,
         offset: offset
-      }
+      },
+      headers: this.header
     });
   }
 
-  getFavoritedArticles(favorited: string, limit, offset){
+  getFavoritedArticles(favorited: string, limit, offset) {
     return this.http.get(this.url, {
       params: {
         favorited: favorited,
         limit: limit,
         offset: offset
-      }
+      },
+      headers:  this.header
+    })
+  }
+
+  deleteArticle(slug: string) {
+    return this.http.delete(`${this.url}/${slug}`,{
+      headers: this.header
     })
   }
 }

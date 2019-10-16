@@ -3,6 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article, ArticleDetail } from 'src/app/model/article';
 import { ArticleService } from '../article.service';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-editor',
@@ -15,9 +16,11 @@ export class EditorComponent implements OnInit {
   slug: string;
   isLogin: boolean = localStorage.getItem('token') != undefined;
 
-  constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router, private formBuilder: FormBuilder, private titleBrown: Title) { }
 
   ngOnInit() {
+    this.titleBrown.setTitle('Editor');
+
     this.route.paramMap.subscribe((param: ParamMap) => {
       if (param.get('slug') != null) {
         this.slug = param.get('slug');

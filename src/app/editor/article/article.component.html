@@ -3,7 +3,7 @@
         <div class="container">
             <h1>{{ article?.article.title }}</h1>
             <app-article-meta [curSlug]="curSlug" [curUser]="curUser" [article]="article?.article"
-                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)"></app-article-meta>
+                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)" (delArticle)="deleteArticle($event)"></app-article-meta>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
         <hr />
         <div class="article-actions">
             <app-article-meta [curSlug]="curSlug" [curUser]="curUser" [article]="article?.article"
-                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)"></app-article-meta>
+                (setFavorite)="favoriteArticle($event)" (setFollow)="followAuthor($event)" (delArticle)="deleteArticle($event)"></app-article-meta>
         </div>
     </div>
 </div>

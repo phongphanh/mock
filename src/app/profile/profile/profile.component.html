@@ -10,11 +10,18 @@
           <p>
             {{user?.profile?.bio}}
           </p>
-          <button class="btn btn-sm btn-outline-secondary action-btn">
+          <button class="btn btn-sm action-btn"
+            [ngClass]="{'btn-outline-secondary': !user?.profile.following, 'btn-secondary': user?.profile.following}"
+            *ngIf="curUserName != user?.profile.username; else edit" (click)="followAuthor(user?.profile.following)" [disabled]="isSubmit">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons
+            {{ user?.profile.following ? 'Unfollow' : 'Follow' }} {{ user?.profile.username }}
           </button>
+          <ng-template #edit>
+            <a class="btn btn-sm btn-outline-secondary action-btn" [routerLink]="['/settings']">
+              <i class="ion-gear-a"></i> Edit Profile Settings
+            </a>
+          </ng-template>
         </div>
 
       </div>
@@ -28,17 +35,18 @@
         <div class="articles-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link" (click)="changeTab('')" [ngClass]="{active: currentTab == ''}">My Articles</a>
+              <a class="nav-link" [routerLink]="['/@'+paramUser]" (click)="changeTab('')"
+                [ngClass]="{active: currentTab == ''}">My Articles</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['favorites']" (click)="changeTab('favorites')" [ngClass]="{active: currentTab == 'favorites'}">Favorited Articles</a>
+              <a class="nav-link" [routerLink]="['favorites']" (click)="changeTab('favorites')"
+                [ngClass]="{active: currentTab == 'favorites'}">Favorited Articles</a>
             </li>
           </ul>
         </div>
-        
         <app-sub-article [lists]="lists"></app-sub-article>
-        <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
-
+        <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage"
+          (putOffset)="changePage($event)"></app-pagination>
       </div>
 
     </div>

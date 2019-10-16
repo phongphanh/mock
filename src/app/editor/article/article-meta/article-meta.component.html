@@ -24,12 +24,11 @@
         </button>
     </span>
     <ng-template #ownAuthor>
-        <a class="btn btn-outline-secondary btn-sm" href="#/editor/asd-49y27p">
+        <a class="btn btn-outline-secondary btn-sm" *ngIf="article" [routerLink]="['/editor', article.slug]">
             <i class="ion-edit"></i> Edit Article
         </a>
 
-        <button class="btn btn-outline-danger btn-sm" ng-class="{disabled: $ctrl.isDeleting}"
-            ng-click="$ctrl.deleteArticle()">
+        <button class="btn btn-outline-danger btn-sm" (click)="deleteArticle(article?.slug)">
             <i class="ion-trash-a"></i> Delete Article
         </button>
     </ng-template>

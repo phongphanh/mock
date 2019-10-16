@@ -1,3 +1,6 @@
+<head>
+  <title>Home</title>
+</head>
 <div class="home-page">
 
   <div class="banner" *ngIf="!checkLogin">
@@ -20,13 +23,12 @@
               <a class="nav-link" [ngClass]="{active: tab == 'global'}" (click)="changeTab('global')">Global Feed</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: tab != 'global' && tab != 'feed'}" [ngStyle]="{display: tab != 'global' && tab != 'feed' ? '' : 'none'}">{{ tab }}</a>
+              <a class="nav-link" [ngClass]="{active: tab != 'global' && tab != 'feed'}" [ngStyle]="{display: tab != 'global' && tab != 'feed' ? '' : 'none'}"># {{ tab }}</a>
             </li>
           </ul>
         </div>
         <div>
-          <app-sub-article [lists]="lists"></app-sub-article>
-          
+          <app-sub-article [lists]="lists" (selectTag)="changeTab($event)"></app-sub-article>
           <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
         </div>
       </div>
