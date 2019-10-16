@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   offsetIndex: number = 0;
   currentPage: number = 0;
   checkLogin: boolean = localStorage.getItem('token') != undefined ? true : false;
-  tab: string = localStorage.getItem('token') != 'null' ? 'feed' : 'global';
+  tab: string = localStorage.getItem('token') != undefined ? 'feed' : 'global';
   tag: string = '';
 
   ngOnInit() {
