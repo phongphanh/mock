@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProfileService } from '../profile.service';
 import { Profile, ProfileRes } from 'src/app/model/profile';
 import { ArticleService } from 'src/app/editor/article.service';
 import { Articles } from 'src/app/model/articles';
 import { Article } from 'src/app/model/article';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -12,9 +13,6 @@ import { Article } from 'src/app/model/article';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  constructor(private route: ActivatedRoute, private profileService: ProfileService, private articleService: ArticleService) { }
-
   username;
   user: ProfileRes;
   lists: Article[];
@@ -24,26 +22,27 @@ export class ProfileComponent implements OnInit {
   offsetIndex: number = 0;
   currentPage: number = 0;
   itemOfPage: number = Number(this.limit);
-  paramUser;
+  paramUser: string;
   currentTab: string = '';
+  curUserName: string = localStorage.getItem('userName');
+  isSubmit: boolean = false;
+
+  constructor(private route: ActivatedRoute, private profileService: ProfileService, private articleService: ArticleService, private titleBrown: Title) { }
 
   ngOnInit() {
-    this.username = this.route.paramMap.subscribe(data => {
-      this.paramUser = data.get('username').split('');
-      this.paramUser.shift();
-      this.paramUser = this.paramUser.join('');
+    this.username = this.route.paramMap.subscribe((data: ParamMap) => {
+      this.titleBrown.setTitle(data.get('username'));
+      this.paramUser = data.get('username').replace('@', '');
       this.profileService.getProfile(this.paramUser).subscribe((data: ProfileRes) => {
         this.user = data;
       });
       this.myArticle();
     });
-
   }
 
   myArticle() {
     this.articleService.getArticleWithOtherUser(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
       this.getDataPerPage(data);
-      console.log(data);
       this.setPage();
     });
   }
@@ -51,7 +50,6 @@ export class ProfileComponent implements OnInit {
   favoritedArticle() {
     this.articleService.getFavoritedArticles(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
       this.getDataPerPage(data);
-      console.log(data);
       this.setPage();
     });
   }
@@ -63,8 +61,10 @@ export class ProfileComponent implements OnInit {
 
   setPage() {
     this.pagination = [];
-    for (let i = 0; i < Math.ceil(this.articlesCount / Number(this.limit)); i++) {
-      this.pagination.push(i);
+    if (Math.ceil(this.articlesCount / Number(this.limit)) != 1) {
+      for (let i = 0; i < Math.ceil(this.articlesCount / Number(this.limit)); i++) {
+        this.pagination.push(i);
+      }
     }
   }
 
@@ -89,6 +89,21 @@ export class ProfileComponent implements OnInit {
       this.myArticle();
     }else if(tab == 'favorites'){
       this.favoritedArticle();
+    }
+  }
+
+  followAuthor(isFollow) {
+    this.isSubmit = true;
+    if (isFollow) {
+      this.profileService.unFollowAuthor(this.paramUser).subscribe((data: ProfileRes) => {
+        this.user = data;
+        this.isSubmit = false;
+      });
+    } else {
+      this.profileService.followAuthor(this.paramUser).subscribe((data: ProfileRes) => {
+        this.user = data;
+        this.isSubmit = false;
+      })
     }
   }
 }

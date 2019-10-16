@@ -5,6 +5,7 @@ import { TagService } from '../tag.service';
 import { Tags } from 'src/app/model/tags';
 import { Article } from 'src/app/model/article';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,6 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private articleService: ArticleService, private tagService: TagService, private authService: AuthService) { }
-
   lists: Article[];
   articlesCount: number;
   tags: string[];
@@ -27,9 +25,13 @@ export class HomeComponent implements OnInit {
   tab: string = localStorage.getItem('token') != undefined ? 'feed' : 'global';
   tag: string = '';
 
+  constructor(private articleService: ArticleService, private tagService: TagService, private authService: AuthService, private titleBrown: Title) { }
+
   ngOnInit() {
+    this.titleBrown.setTitle('Home')
+
     this.authService.loginEmit.subscribe((data: string) => {
-      this.checkLogin = data != '' ? true : false;
+      this.checkLogin = data != undefined;
     });
 
     if (!this.checkLogin) {

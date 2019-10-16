@@ -1,0 +1,15 @@
+ul.tag-list {
+    margin: 0;
+}
+
+.d-flex{
+    display: flex;
+}
+
+.jus-content-end{
+    justify-content: flex-end;
+}
+
+ul.tag-list li:hover {
+    cursor: pointer;
+}

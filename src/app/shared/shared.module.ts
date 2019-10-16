@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SubArticleComponent } from './sub-article/sub-article.component';
 import { RouterModule } from '@angular/router';
+import { ArticleComponent } from './sub-article/article/article.component';
 
 
 
 @NgModule({
-  declarations: [PaginationComponent, SubArticleComponent],
+  declarations: [PaginationComponent, SubArticleComponent, ArticleComponent],
   imports: [
     CommonModule,
     RouterModule

@@ -15,6 +15,7 @@ export class ArticleMetaComponent implements OnInit {
   @Output() setFollow = new EventEmitter();
   @Output() setFavorite = new EventEmitter;
   @Input() isLogin: boolean = localStorage.getItem('token') != undefined;
+  @Output() delArticle = new EventEmitter();
 
   constructor(private router: Router) { }
 
@@ -39,5 +40,9 @@ export class ArticleMetaComponent implements OnInit {
 
   navigateToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  deleteArticle(slug: string) {
+    this.delArticle.emit(slug);
   }
 }

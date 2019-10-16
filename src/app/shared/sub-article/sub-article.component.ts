@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sub-article',
@@ -7,13 +7,16 @@ import { Component, OnInit } from '@angular/core';
   inputs: ['listArticle', 'lists', 'articleCount']
 })
 export class SubArticleComponent implements OnInit {
+  @Output() selectTag = new EventEmitter();
+  listArticle;
+  lists;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  listArticle;
-  lists;
-  articleCount;
+  getTag(tag: string) {
+    this.selectTag.emit(tag);
+  }
 }
