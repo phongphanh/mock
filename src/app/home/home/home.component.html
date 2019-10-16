@@ -25,7 +25,7 @@
           </ul>
         </div>
         <div>
-          <app-sub-article [lists]="lists"></app-sub-article>
+          <app-sub-article [lists]="lists" [articleCount]="articlesCount"></app-sub-article>
           
           <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
         </div>
