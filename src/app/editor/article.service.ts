@@ -9,43 +9,43 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ArticleService {
   url = 'https://conduit.productionready.io/api/articles';
-  header = localStorage.getItem('token') != undefined ? new HttpHeaders({
+  header = localStorage.getItem('token') !== undefined ? new HttpHeaders({
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
   }) : new HttpHeaders({
     Accept: 'application/json',
   });
 
-  constructor(private http: HttpClient, private authService: AuthService) { 
+  constructor(private http: HttpClient, private authService: AuthService) {
     authService.loginEmit.subscribe((data: string) => {
-      this.header = data != undefined ? new HttpHeaders({
+      this.header = data !== undefined ? new HttpHeaders({
         Accept: 'application/json',
         Authorization: `Token ${localStorage.getItem('token')}`
       }) : new HttpHeaders({
         Accept: 'application/json',
       });
-    })
+    });
   }
 
-  //get all articles
+  // get all articles
   public getArticles(limit, offset, tag?): Observable<any> {
     return this.http.get(this.url,
       {
         params: {
-          limit: limit,
-          offset: offset,
-          tag: tag
+          limit,
+          offset,
+          tag
         },
         headers: this.header
       });
   }
 
-  //get article with user - article feed
+  // get article with user - article feed
   public getArticlesWithLogin(limit, offset): Observable<any> {
     return this.http.get(this.url + '/feed', {
       params: {
-        limit: limit,
-        offset: offset
+        limit,
+        offset
       },
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`
@@ -53,71 +53,63 @@ export class ArticleService {
     });
   }
 
-  //get article detail
+  // get article detail
   articleDetail(slug: string, isLogin: boolean) {
-    let headers = new HttpHeaders({
-      Accept: 'application/json',
-      Authorization: `Token ${localStorage.getItem('token')}`
-    });
     if (isLogin) {
       return this.http.get(`${this.url}/${slug}`, {
-        headers: headers
-      })
+        headers: this.header
+      });
     } else {
       return this.http.get(`${this.url}/${slug}`);
     }
   }
 
-  //create artile
+  // create artile
   createArticle(value: Article) {
     return this.http.post(this.url, { article: value }, {
       headers: this.header
     });
   }
 
-  //create artile
+  // create artile
   editArticle(value: Article, slug: string) {
     return this.http.put(`${this.url}/${slug}`, { article: value }, {
       headers: this.header
     });
   }
 
-  //get list comment of article
+  // get list comment of article
   getCommnets(slug: string, isLogin: boolean) {
-    let headers = new HttpHeaders({
-      Accept: 'application/json',
-      Authorization: `Token ${localStorage.getItem('token')}`
-    });
     if (isLogin) {
       return this.http.get(`${this.url}/${slug}/comments`, {
-        headers: headers
+        headers: this.header
       });
     } else {
       return this.http.get(`${this.url}/${slug}/comments`);
     }
   }
 
-  //add comment author
+  // add comment author
   addComment(slug: string, body: string) {
     return this.http.post(`${this.url}/${slug}/comments`, {
       comment: {
-        body: body
+        body
       }
     }, {
       headers: this.header
     });
   }
 
-  //delete comment author
+  // delete comment author
   delComment(slug: string, id: number) {
     return this.http.delete(`${this.url}/${slug}/comments/${id}`, {
       headers: this.header
     })
   }
 
-  //like/dislike article
+  // like/dislike article
   favoriteArticle(status: boolean, slug: string) {
-    let url = `https://conduit.productionready.io/api/articles/${slug}/favorite`;
+    const url = `https:// conduit.productionready.io/api/articles/${slug}/favorite`;
     if (status) {
       return this.http.post(url, {}, {
         headers: this.header
@@ -132,9 +124,9 @@ export class ArticleService {
   getArticleWithOtherUser(author: string, limit, offset) {
     return this.http.get(this.url, {
       params: {
-        author: author,
-        limit: limit,
-        offset: offset
+        author,
+        limit,
+        offset
       },
       headers: this.header
     });
@@ -143,17 +135,17 @@ export class ArticleService {
   getFavoritedArticles(favorited: string, limit, offset) {
     return this.http.get(this.url, {
       params: {
-        favorited: favorited,
-        limit: limit,
-        offset: offset
+        favorited,
+        limit,
+        offset
       },
       headers:  this.header
-    })
+    });
   }
 
   deleteArticle(slug: string) {
     return this.http.delete(`${this.url}/${slug}`,{
       headers: this.header
-    })
+    });
   }
 }

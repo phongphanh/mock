@@ -28,7 +28,7 @@ export class AuthService {
 
   changeLogin(userName, token) {
     if (userName) {
-      localStorage.setItem("token", token);
+      localStorage.setItem('token', token);
     } else {
       localStorage.removeItem('token');
     }

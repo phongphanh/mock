@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { User } from 'src/app/model/user';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,10 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   error: boolean;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private titleBrown: Title) { }
 
   ngOnInit() {
+    this.titleBrown.setTitle('Login');
   }
 
   onSubmit(loginForm) {

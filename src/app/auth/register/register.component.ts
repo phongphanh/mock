@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { User } from 'src/app/model/user';
 import { Router } from '@angular/router';
 import { Error } from 'src/app/model/error';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -11,9 +12,10 @@ import { Error } from 'src/app/model/error';
 })
 export class RegisterComponent implements OnInit {
   error: string;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private titleBrown: Title) { }
 
   ngOnInit() {
+    this.titleBrown.setTitle('Register');
   }
 
   onSubmit(registerForm) {
