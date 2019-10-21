@@ -16,22 +16,27 @@ export class HomeComponent implements OnInit {
   lists: Article[];
   articlesCount: number;
   tags: string[];
-  limit: string = '10';
+  limit = '10';
   itemOfPage: number = Number(this.limit);
   pagination: number[] = [];
-  offsetIndex: number = 0;
-  currentPage: number = 0;
-  checkLogin: boolean = localStorage.getItem('token') != undefined ? true : false;
-  tab: string = localStorage.getItem('token') != undefined ? 'feed' : 'global';
-  tag: string = '';
+  offsetIndex = 0;
+  currentPage = 0;
+  checkLogin: boolean = localStorage.getItem('token') !== undefined ? true : false;
+  tab: string = localStorage.getItem('token') !== undefined ? 'feed' : 'global';
+  tag = '';
 
-  constructor(private articleService: ArticleService, private tagService: TagService, private authService: AuthService, private titleBrown: Title) { }
+  constructor(
+    private articleService: ArticleService,
+    private tagService: TagService,
+    private authService: AuthService,
+    private titleBrown: Title
+    ) { }
 
   ngOnInit() {
-    this.titleBrown.setTitle('Home')
+    this.titleBrown.setTitle('Home');
 
     this.authService.loginEmit.subscribe((data: string) => {
-      this.checkLogin = data != undefined;
+      this.checkLogin = data !== undefined;
     });
 
     if (!this.checkLogin) {
@@ -69,9 +74,9 @@ export class HomeComponent implements OnInit {
   changeTab(tab: string) {
     this.tab = tab;
     this.tag = '';
-    if (tab == 'feed') {
+    if (tab === 'feed') {
       this.getArticleFeed();
-    } else if (tab == 'global') {
+    } else if (tab === 'global') {
       this.getArticleGlobal();
     } else {
       this.getTag(tab);

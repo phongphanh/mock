@@ -17,7 +17,7 @@ export class ArticleComponent implements OnInit {
   article: ArticleDetail;
   curSlug: string;
   curUser: User;
-  isLogin: boolean = localStorage.getItem('token') != undefined;
+  isLogin: boolean = localStorage.getItem('token') !== undefined;
 
   constructor(
     private articleService: ArticleService,
@@ -31,9 +31,11 @@ export class ArticleComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.curSlug = param.get('slug');
-      this.articleService.articleDetail(param.get('slug'), this.isLogin).subscribe((data: ArticleDetail) => {
+      this.articleService.articleDetail(param.get('slug')).subscribe((data: ArticleDetail) => {
         this.article = data;
         this.titleBrown.setTitle(data.article.title);
+      }, (error) => {
+        this.router.navigate(['/']);
       });
     });
 

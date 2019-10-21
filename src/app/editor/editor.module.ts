@@ -19,7 +19,15 @@ import { CommentsComponent } from './article/comment/comments/comments.component
 import { ArticleMetaComponent } from './article/article-meta/article-meta.component';
 
 @NgModule({
-  declarations: [EditorComponent, ArticleComponent, TagInputComponent, CommentComponent, CommentBoxComponent, CommentsComponent, ArticleMetaComponent],
+  declarations: [
+    EditorComponent,
+    ArticleComponent,
+    TagInputComponent,
+    CommentComponent,
+    CommentBoxComponent,
+    CommentsComponent,
+    ArticleMetaComponent
+  ],
   imports: [
     CommonModule,
     EditorRoutingModule,

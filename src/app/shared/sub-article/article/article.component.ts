@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
 export class ArticleComponent implements OnInit {
   @Input() article: Article;
   @Output() selectTag = new EventEmitter();
-  isLogin: boolean = localStorage.getItem('token') != undefined;
+  isLogin: boolean = localStorage.getItem('token') !== undefined;
 
   constructor(private articleService: ArticleService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.authService.loginEmit.subscribe((data: string) => {
-      this.isLogin = data != undefined;
-    })
+      this.isLogin = data !== undefined;
+    });
   }
 
   getTag(tag: string) {

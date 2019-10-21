@@ -8,31 +8,28 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ProfileService {
   user: User;
-  header = localStorage.getItem('token') != undefined ? new HttpHeaders({
+  header = localStorage.getItem('token') !== undefined ? new HttpHeaders({
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
   }) : new HttpHeaders({
     Accept: 'application/json',
   });
-  constructor(private http: HttpClient, private authService: AuthService) { 
+
+  constructor(private http: HttpClient, private authService: AuthService) {
     authService.loginEmit.subscribe((data: string) => {
-      this.header = data != undefined ? new HttpHeaders({
+      this.header = data !== undefined ? new HttpHeaders({
         Accept: 'application/json',
         Authorization: `Token ${localStorage.getItem('token')}`
       }) : new HttpHeaders({
         Accept: 'application/json',
       });
-    })
+    });
   }
 
   getUser() {
-    let headers = new HttpHeaders({
-      Accept: 'application/json',
-      Authorization: `Token ${localStorage.getItem('token')}`
-    });
     return this.http.get('https://conduit.productionready.io/api/user', {
-      headers: headers,
-    })
+      headers: this.header,
+    });
   }
 
   updateProfile(value) {
@@ -42,20 +39,20 @@ export class ProfileService {
   }
 
   followAuthor(username: string) {
-    let url = `https://conduit.productionready.io/api/profiles/${username}/follow`;
-    return this.http.post(url, {}, {
+    const URL = `https://conduit.productionready.io/api/profiles/${username}/follow`;
+    return this.http.post(URL, {}, {
       headers: this.header
     });
   }
 
   unFollowAuthor(username: string) {
-    let url = `https://conduit.productionready.io/api/profiles/${username}/follow`;
-    return this.http.delete(url, {
+    const URL = `https://conduit.productionready.io/api/profiles/${username}/follow`;
+    return this.http.delete(URL, {
       headers: this.header
     });
   }
-  
-  getProfile(user){
+
+  getProfile(user) {
     return this.http.get(`https://conduit.productionready.io/api/profiles/${user}`, {
       headers: this.header
     });

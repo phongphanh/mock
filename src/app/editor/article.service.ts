@@ -54,14 +54,10 @@ export class ArticleService {
   }
 
   // get article detail
-  articleDetail(slug: string, isLogin: boolean) {
-    if (isLogin) {
-      return this.http.get(`${this.url}/${slug}`, {
-        headers: this.header
-      });
-    } else {
-      return this.http.get(`${this.url}/${slug}`);
-    }
+  articleDetail(slug: string) {
+    return this.http.get(`${this.url}/${slug}`, {
+      headers: this.header
+    });
   }
 
   // create artile

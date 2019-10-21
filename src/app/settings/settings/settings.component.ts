@@ -13,14 +13,21 @@ import { Title } from '@angular/platform-browser';
 export class SettingsComponent implements OnInit {
   user: User;
 
-  constructor(private router: Router, private authService: AuthService, private profileService: ProfileService, private titleBrown: Title) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private profileService: ProfileService,
+    private titleBrown: Title
+    ) { }
 
   ngOnInit() {
     this.titleBrown.setTitle('Settings');
 
-    if (this.user == undefined) {
+    if (this.user === undefined) {
       this.profileService.getUser().subscribe((data: User) => {
         this.user = data;
+      }, (error) => {
+        this.router.navigate(['/']);
       });
     }
   }

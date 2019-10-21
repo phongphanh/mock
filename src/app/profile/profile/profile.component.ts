@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ProfileService } from '../profile.service';
 import { Profile, ProfileRes } from 'src/app/model/profile';
 import { ArticleService } from 'src/app/editor/article.service';
@@ -18,23 +18,30 @@ export class ProfileComponent implements OnInit {
   lists: Article[];
   pagination = [];
   articlesCount: number;
-  limit: string = '5';
-  offsetIndex: number = 0;
-  currentPage: number = 0;
+  limit = '5';
+  offsetIndex = 0;
+  currentPage = 0;
   itemOfPage: number = Number(this.limit);
   paramUser: string;
-  currentTab: string = '';
+  currentTab = '';
   curUserName: string = localStorage.getItem('userName');
-  isSubmit: boolean = false;
+  isSubmit = false;
 
-  constructor(private route: ActivatedRoute, private profileService: ProfileService, private articleService: ArticleService, private titleBrown: Title) { }
+  constructor(
+    private route: ActivatedRoute,
+    private profileService: ProfileService,
+    private articleService: ArticleService,
+    private titleBrown: Title,
+    private router: Router) { }
 
   ngOnInit() {
     this.username = this.route.paramMap.subscribe((data: ParamMap) => {
       this.titleBrown.setTitle(data.get('username'));
       this.paramUser = data.get('username').replace('@', '');
-      this.profileService.getProfile(this.paramUser).subscribe((data: ProfileRes) => {
-        this.user = data;
+      this.profileService.getProfile(this.paramUser).subscribe((res: ProfileRes) => {
+        this.user = res;
+      }, (error) => {
+        this.router.navigate(['/']);
       });
       this.myArticle();
     });
@@ -61,7 +68,7 @@ export class ProfileComponent implements OnInit {
 
   setPage() {
     this.pagination = [];
-    if (Math.ceil(this.articlesCount / Number(this.limit)) != 1) {
+    if (Math.ceil(this.articlesCount / Number(this.limit)) !== 1) {
       for (let i = 0; i < Math.ceil(this.articlesCount / Number(this.limit)); i++) {
         this.pagination.push(i);
       }
@@ -71,23 +78,22 @@ export class ProfileComponent implements OnInit {
   changePage(event) {
     this.currentPage = event[1];
     this.offsetIndex = event[0];
-    if(this.currentTab == ''){
+    if (this.currentTab === '') {
       this.articleService.getArticleWithOtherUser(this.paramUser, this.offsetIndex, this.offsetIndex).subscribe((item: Articles) => {
         this.getDataPerPage(item);
       });
-    }else{
+    } else {
       this.articleService.getFavoritedArticles(this.paramUser, this.limit, this.offsetIndex).subscribe((data: Articles) => {
         this.getDataPerPage(data);
       });
     }
-    
   }
 
   changeTab(tab: string) {
     this.currentTab = tab;
-    if(tab == ''){
+    if (tab === '') {
       this.myArticle();
-    }else if(tab == 'favorites'){
+    } else if (tab === 'favorites') {
       this.favoritedArticle();
     }
   }
@@ -103,7 +109,7 @@ export class ProfileComponent implements OnInit {
       this.profileService.followAuthor(this.paramUser).subscribe((data: ProfileRes) => {
         this.user = data;
         this.isSubmit = false;
-      })
+      });
     }
   }
 }

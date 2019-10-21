@@ -14,19 +14,26 @@ export class EditorComponent implements OnInit {
   editorForm: FormGroup;
   status: string;
   slug: string;
-  isLogin: boolean = localStorage.getItem('token') != undefined;
+  isLogin: boolean = localStorage.getItem('token') !== undefined;
 
-  constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router, private formBuilder: FormBuilder, private titleBrown: Title) { }
+  constructor(
+    private route: ActivatedRoute,
+    private articleService: ArticleService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private titleBrown: Title) { }
 
   ngOnInit() {
     this.titleBrown.setTitle('Editor');
 
     this.route.paramMap.subscribe((param: ParamMap) => {
-      if (param.get('slug') != null) {
+      if (param.get('slug') !== null) {
         this.slug = param.get('slug');
-        this.articleService.articleDetail(this.slug, this.isLogin).subscribe((data: ArticleDetail) => {
+        this.articleService.articleDetail(this.slug).subscribe((data: ArticleDetail) => {
           this.createForm(data.article);
           this.status = 'update';
+        }, (error) => {
+          this.router.navigate(['/']);
         });
       } else {
         this.createForm(undefined);
@@ -41,7 +48,7 @@ export class EditorComponent implements OnInit {
 
   onSubmit() {
     if (this.editorForm.valid) {
-      if (this.status == 'create') {
+      if (this.status === 'create') {
         this.articleService.createArticle(this.editorForm.value).subscribe((data: ArticleDetail) => {
           this.slug = data.article.slug;
           this.router.navigate(['/article', this.slug]);
@@ -63,14 +70,14 @@ export class EditorComponent implements OnInit {
 
   createForm(article: Article) {
     this.editorForm = this.formBuilder.group({
-      title: [article? article.title : '', Validators.required],
-      description: [article? article.description : '', Validators.required],
-      body: [article? article.body : '', Validators.required],
-      tagList: [article? article.tagList : [], isNullArr]
-    })
+      title: [article ? article.title : '', Validators.required],
+      description: [article ? article.description : '', Validators.required],
+      body: [article ? article.body : '', Validators.required],
+      tagList: [article ? article.tagList : [], isNullArr]
+    });
   }
 }
 
 function isNullArr(control: AbstractControl): ValidationErrors | null {
-  return control.value.length == 0 ? {'isNull': true} : null;
+  return control.value.length === 0 ? {isNull: true} : null;
 }
