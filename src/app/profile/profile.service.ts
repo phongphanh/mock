@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ProfileService {
   user: User;
-  header = localStorage.getItem('token') !== undefined ? new HttpHeaders({
+  header = localStorage.getItem('token') !== null ? new HttpHeaders({
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
   }) : new HttpHeaders({

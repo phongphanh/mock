@@ -20,7 +20,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/@' + userName]" routerLinkActive="active">{{ userName }}</a>
+                        <a class="nav-link" [routerLink]="['/@' + userName]" routerLinkActive="active">
+                            <img [src]="userImg" class="user-img" alt="user img">
+                            {{ userName }}
+                        </a>
                     </li>
                 </ng-template>
                 <ng-template [ngIf]="!isLogin">

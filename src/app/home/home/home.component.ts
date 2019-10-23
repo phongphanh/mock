@@ -21,8 +21,8 @@ export class HomeComponent implements OnInit {
   pagination: number[] = [];
   offsetIndex = 0;
   currentPage = 0;
-  checkLogin: boolean = localStorage.getItem('token') !== undefined ? true : false;
-  tab: string = localStorage.getItem('token') !== undefined ? 'feed' : 'global';
+  checkLogin: boolean = localStorage.getItem('token') !== null ? true : false;
+  tab: string = localStorage.getItem('token') !== null ? 'feed' : 'global';
   tag = '';
 
   constructor(

@@ -26,11 +26,15 @@ export class AuthService {
     });
   }
 
-  changeLogin(userName, token) {
+  changeLogin(userName: string, token: string, userImg: string) {
     if (userName) {
       localStorage.setItem('token', token);
+      localStorage.setItem('userName', userName);
+      localStorage.setItem('userImg', userImg);
     } else {
       localStorage.removeItem('token');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userImg');
     }
     this.loginEmit.emit(userName);
     this.router.navigate(['/']);

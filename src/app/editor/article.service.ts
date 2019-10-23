@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ArticleService {
   url = 'https://conduit.productionready.io/api/articles';
-  header = localStorage.getItem('token') !== undefined ? new HttpHeaders({
+  header = localStorage.getItem('token') !== null ? new HttpHeaders({
     Accept: 'application/json',
     Authorization: `Token ${localStorage.getItem('token')}`
   }) : new HttpHeaders({
@@ -105,7 +105,7 @@ export class ArticleService {
 
   // like/dislike article
   favoriteArticle(status: boolean, slug: string) {
-    const url = `https:// conduit.productionready.io/api/articles/${slug}/favorite`;
+    const url = `https://conduit.productionready.io/api/articles/${slug}/favorite`;
     if (status) {
       return this.http.post(url, {}, {
         headers: this.header

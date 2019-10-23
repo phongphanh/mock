@@ -6,6 +6,7 @@ import { ArticleService } from 'src/app/editor/article.service';
 import { Articles } from 'src/app/model/articles';
 import { Article } from 'src/app/model/article';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,13 +27,15 @@ export class ProfileComponent implements OnInit {
   currentTab = '';
   curUserName: string = localStorage.getItem('userName');
   isSubmit = false;
+  isLogin: boolean = localStorage.getItem('token') !== null;
 
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private articleService: ArticleService,
     private titleBrown: Title,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.username = this.route.paramMap.subscribe((data: ParamMap) => {
@@ -44,6 +47,10 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/']);
       });
       this.myArticle();
+    });
+
+    this.authService.loginEmit.subscribe((res: string) => {
+      this.isLogin = res !== '';
     });
   }
 
@@ -99,17 +106,21 @@ export class ProfileComponent implements OnInit {
   }
 
   followAuthor(isFollow) {
-    this.isSubmit = true;
-    if (isFollow) {
-      this.profileService.unFollowAuthor(this.paramUser).subscribe((data: ProfileRes) => {
-        this.user = data;
-        this.isSubmit = false;
-      });
+    if (this.isLogin) {
+      this.isSubmit = true;
+      if (isFollow) {
+        this.profileService.unFollowAuthor(this.paramUser).subscribe((data: ProfileRes) => {
+          this.user = data;
+          this.isSubmit = false;
+        });
+      } else {
+        this.profileService.followAuthor(this.paramUser).subscribe((data: ProfileRes) => {
+          this.user = data;
+          this.isSubmit = false;
+        });
+      }
     } else {
-      this.profileService.followAuthor(this.paramUser).subscribe((data: ProfileRes) => {
-        this.user = data;
-        this.isSubmit = false;
-      });
+      this.router.navigate(['/login']);
     }
   }
 }

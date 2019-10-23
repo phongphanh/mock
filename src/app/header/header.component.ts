@@ -6,9 +6,10 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit { 
+export class HeaderComponent implements OnInit {
   userName: string = localStorage.getItem('userName');
-  isLogin: boolean = localStorage.getItem('token') != null;
+  isLogin: boolean = localStorage.getItem('token') !== null;
+  userImg: string = localStorage.getItem('userImg');
 
   constructor(private authService: AuthService) {}
 
@@ -16,8 +17,8 @@ export class HeaderComponent implements OnInit {
     this.authService.loginEmit.subscribe(res => {
       this.isLogin = res !== undefined;
       this.userName = res;
-      localStorage.setItem('userName', res);
-    })
+      this.userImg = localStorage.getItem('userImg');
+    });
   }
 
 }

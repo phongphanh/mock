@@ -13,8 +13,8 @@ export class ArticleMetaComponent implements OnInit {
   @Input() curUser: User;
   @Input() curSlug: string;
   @Output() setFollow = new EventEmitter();
-  @Output() setFavorite = new EventEmitter;
-  @Input() isLogin: boolean = localStorage.getItem('token') != undefined;
+  @Output() setFavorite = new EventEmitter();
+  @Input() isLogin: boolean = localStorage.getItem('token') !== undefined;
   @Output() delArticle = new EventEmitter();
 
   constructor(private router: Router) { }

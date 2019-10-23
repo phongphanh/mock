@@ -17,7 +17,7 @@ export class ArticleComponent implements OnInit {
   article: ArticleDetail;
   curSlug: string;
   curUser: User;
-  isLogin: boolean = localStorage.getItem('token') !== undefined;
+  isLogin: boolean = localStorage.getItem('token') !== null;
 
   constructor(
     private articleService: ArticleService,

@@ -14,7 +14,7 @@ export class EditorComponent implements OnInit {
   editorForm: FormGroup;
   status: string;
   slug: string;
-  isLogin: boolean = localStorage.getItem('token') !== undefined;
+  isLogin: boolean = localStorage.getItem('token') !== null;
 
   constructor(
     private route: ActivatedRoute,

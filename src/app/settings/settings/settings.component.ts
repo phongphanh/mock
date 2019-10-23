@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.changeLogin(undefined, '');
+    this.authService.changeLogin(undefined, '', '');
   }
 
   onSubmit(settingsForm) {
@@ -41,8 +41,8 @@ export class SettingsComponent implements OnInit {
       this.profileService.updateProfile(settingsForm.value).subscribe((data: User) => {
         localStorage.setItem('userName', data.user.username);
         this.authService.loginEmit.emit(data.user.username);
-        this.router.navigate(['/profile']);
-      })
+        this.router.navigate(['/@' + data.user.username]);
+      });
     }
   }
 }
