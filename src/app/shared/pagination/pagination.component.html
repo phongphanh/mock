@@ -1,7 +1,24 @@
 <ul class="pagination">
-    <li *ngFor="let item of pagination; index as i" class="page-item ng-scope" (click)="changePage(itemOfPage*i, i)"
-      [ngClass]="currentPage == i ? 'active' : ''" #page>
-      <a class="page-link ng-binding">{{item + 1}}</a>
-    </li>
-  </ul>
-  
+  <li class="page-item ng-scope" page *ngIf="currentPage - 3 >= 0" (click)="changePage(0, 0)">
+    <a class="page-link ng-binding">Fisrt</a>
+  </li>
+  <li class="page-item ng-scope" page *ngIf="currentPage > 0" (click)="changePage((currentPage - 1) * itemOfPage, currentPage - 1)">
+    <a class="page-link ng-binding">Prev</a>
+  </li>
+  <li class="page-item ng-scope" page *ngIf="currentPage - 3 >= 0">
+    <a class="page-link ng-binding">...</a>
+  </li>
+  <li *ngFor="let item of pagination" class="page-item ng-scope" (click)="changePage(itemOfPage*item, item)"
+    [ngClass]="currentPage == item ? 'active' : ''" #page>
+    <a class="page-link ng-binding">{{item + 1}}</a>
+  </li>
+  <li class="page-item ng-scope" page *ngIf="lastPage >= currentPage + 3">
+    <a class="page-link ng-binding">...</a>
+  </li>
+  <li class="page-item ng-scope" *ngIf="currentPage < lastPage" (click)="changePage((currentPage + 1) * itemOfPage, currentPage + 1)">
+    <a class="page-link ng-binding">Next</a>
+  </li>
+  <li class="page-item ng-scope" *ngIf="lastPage >= currentPage + 3" (click)="changePage(lastPage*itemOfPage, lastPage)">
+    <a class="page-link ng-binding">Last</a>
+  </li>
+</ul>

@@ -20,7 +20,7 @@ import { ProfileModule } from './profile/profile.module';
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

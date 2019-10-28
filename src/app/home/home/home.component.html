@@ -17,19 +17,25 @@
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: tab == 'feed'}" [ngStyle]="{display: checkLogin ? '' : 'none'}" (click)="changeTab('feed')">Your Feed</a>
+              <a class="nav-link" [ngClass]="{active: tab == 'feed'}" [ngStyle]="{display: checkLogin ? '' : 'none'}"
+                (click)="changeTab('feed')">Your Feed</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" [ngClass]="{active: tab == 'global'}" (click)="changeTab('global')">Global Feed</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: tab != 'global' && tab != 'feed'}" [ngStyle]="{display: tab != 'global' && tab != 'feed' ? '' : 'none'}"># {{ tab }}</a>
+              <a class="nav-link" [ngClass]="{active: tab != 'global' && tab != 'feed'}"
+                [ngStyle]="{display: tab != 'global' && tab != 'feed' ? '' : 'none'}"># {{ tab }}</a>
             </li>
           </ul>
         </div>
         <div>
-          <app-sub-article [lists]="lists" (selectTag)="changeTab($event)"></app-sub-article>
-          <app-pagination [currentPage]="currentPage" [pagination]="pagination" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"></app-pagination>
+          <app-loading *ngIf="loading; else loadingDone"></app-loading>
+          <ng-template #loadingDone>
+            <app-sub-article [lists]="lists" (selectTag)="changeTab($event)"></app-sub-article>
+          </ng-template>
+          <app-pagination [currentPage]="currentPage" [itemOfPage]="itemOfPage" (putOffset)="changePage($event)"
+            *ngIf="showPagination" [totalCount]="articlesCount"></app-pagination>
         </div>
       </div>
 

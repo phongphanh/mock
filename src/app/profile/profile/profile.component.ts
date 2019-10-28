@@ -28,6 +28,8 @@ export class ProfileComponent implements OnInit {
   curUserName: string = localStorage.getItem('userName');
   isSubmit = false;
   isLogin: boolean = localStorage.getItem('token') !== null;
+  loading = true;
+  showPagination = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,6 +73,8 @@ export class ProfileComponent implements OnInit {
   getDataPerPage(data) {
     this.lists = data.articles;
     this.articlesCount = data.articlesCount;
+    this.loading = false;
+    this.showPagination = true;
   }
 
   setPage() {
@@ -85,6 +89,7 @@ export class ProfileComponent implements OnInit {
   changePage(event) {
     this.currentPage = event[1];
     this.offsetIndex = event[0];
+    this.loading = true;
     if (this.currentTab === '') {
       this.articleService.getArticleWithOtherUser(this.paramUser, this.offsetIndex, this.offsetIndex).subscribe((item: Articles) => {
         this.getDataPerPage(item);
@@ -97,6 +102,8 @@ export class ProfileComponent implements OnInit {
   }
 
   changeTab(tab: string) {
+    this.showPagination = false;
+    this.loading = true;
     this.currentTab = tab;
     if (tab === '') {
       this.myArticle();

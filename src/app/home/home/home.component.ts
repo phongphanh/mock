@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
   checkLogin: boolean = localStorage.getItem('token') !== null ? true : false;
   tab: string = localStorage.getItem('token') !== null ? 'feed' : 'global';
   tag = '';
+  loading = true;
+  showPagination = false;
 
   constructor(
     private articleService: ArticleService,
@@ -64,6 +66,7 @@ export class HomeComponent implements OnInit {
   }
 
   changePage(event) {
+    this.loading = true;
     this.currentPage = event[1];
     this.offsetIndex = event[0];
     this.articleService.getArticles(this.limit, this.offsetIndex, this.tag).subscribe((item: Articles) => {
@@ -72,6 +75,8 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(tab: string) {
+    this.loading = true;
+    this.showPagination = false;
     this.tab = tab;
     this.tag = '';
     if (tab === 'feed') {
@@ -108,5 +113,7 @@ export class HomeComponent implements OnInit {
   getArticlesPerPage(data) {
     this.lists = data.articles;
     this.articlesCount = data.articlesCount;
+    this.loading = false;
+    this.showPagination = true;
   }
 }
